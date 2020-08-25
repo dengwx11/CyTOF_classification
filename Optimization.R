@@ -66,3 +66,36 @@ optim_wh <- function(X, A, S, A0, H0, W0, lambda1, lambda2, mu) {
   return(list(W, H))
 }
 
+# Wang inhouse
+S <- read.csv('/home/bz234/project/Objects/Optimization//Wang/S_wang_inhouse.csv', row.names = 1)
+X <- read.csv('/home/bz234/project/Objects/Optimization/Wang/X_wang_inhouse.csv', row.names = 1)
+A <- read.csv('/home/bz234/project/Objects/Optimization/Wang/A_wang_inhouse.csv', row.names = 1)
+A0 <- read.csv('/home/bz234/project/Objects/Optimization/Wang/A0_wang_inhouse.csv', row.names = 1)
+
+S <- as.matrix(S)
+X <- as.matrix(X)
+A <- as.matrix(A)
+A0 <- as.matrix(A0)
+
+w_row <- nrow(X)
+w_col <- ncol(S)
+W0 <- matrix(nrow = w_row, ncol = w_col)
+for (i in 1:w_row) {
+    W0[i, ] <- rtruncnorm(w_col, a=0, b=Inf, mean = 1, sd = .2)
+}
+
+h_row <- ncol(S)
+h_col <- ncol(X)
+H0 <- matrix(nrow = h_row, ncol = h_col)
+for (i in 1:h_row) {
+    H0[i, ] <- rtruncnorm(h_col, a=0)
+}
+H0 <- apply(H0, 2, function(x) x / sum(x))
+
+lambda1 <- .5
+lambda2 <- .5
+mu <- .5
+
+results <- optim_wh(X, A, S, A0, H0, W0, lambda1, lambda2, mu)
+write.csv(results[[1]], '/home/bz234/project/Objects/Optimization/Wang/W_inhouse_optim.csv')
+write.csv(results[[2]], '/home/bz234/project/Objects/Optimization/Wang/H_inhouse_optim.csv')
