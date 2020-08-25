@@ -21,6 +21,7 @@ update_w_mat <- function(X, A, S, A0, H_prev, W_prev, lambda1, lambda2, mu) {
   for (i in 1:w_row) {
     for (j in 1:w_col) {
       W[i, j] <- update_w(i, j, X, A, S, A0, H_prev, W_prev, lambda1, lambda2, mu)
+      W_prev[i, j] <- W[i, j]
     }
   }
   return(W)
@@ -33,6 +34,7 @@ update_h_mat <- function(W, X, H_prev) {
   for (j in 1:h_col) {
     for (i in 1:h_row) {
       H[i, j] <- update_h(i, j, W, X, H_prev)
+      H_prev[i, j] <- H[i, j]
     }
     for (i in 1:h_row) {
       H[i, j] <- norm_h(i, j, H)
