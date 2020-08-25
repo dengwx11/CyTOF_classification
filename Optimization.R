@@ -103,3 +103,4 @@ mu <- .5
 results <- optim_wh(X, A, S, A0, H0, W0, lambda1, lambda2, mu)
 write.csv(results[[1]], '/home/bz234/project/Objects/Optimization/Wang/W_inhouse_optim.csv')
 write.csv(results[[2]], '/home/bz234/project/Objects/Optimization/Wang/H_inhouse_optim.csv')
+write.csv(results[[3]], '/home/bz234/project/Objects/Optimization/Wang/Loss_inhouse_optim.csv')
