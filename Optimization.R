@@ -1,6 +1,6 @@
 update_w <- function(i, j, X, A, S, A0, H_prev, W_prev, lambda1, lambda2, mu) {
   numerator <- X %*% t(H_prev) + lambda1 * A %*% S + lambda2 * A0
-  denominator <- W %*% H_prev %*% t(H_prev) + 2 * mu * W_prev
+  denominator <- W_prev %*% H_prev %*% t(H_prev) + 2 * mu * W_prev
   return(W_prev[i, j] * numerator[i, j] / denominator[i, j])
 }
 
