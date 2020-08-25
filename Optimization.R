@@ -54,10 +54,12 @@ optim_wh <- function(X, A, S, A0, H0, W0, lambda1, lambda2, mu) {
   H_prev <- H0
   W_prev <- W0
   loss_prev <- loss_func(X, A, S, A0, H_prev, W_prev, lambda1, lambda2, mu)
+  loss_save <- c()
   repeat {
     W <- update_w_mat(X, A, S, A0, H_prev, W_prev, lambda1, lambda2, mu)
     H <- update_h_mat(W, X, H_prev)
     loss <- loss_func(X, A, S, A0, H, W, lambda1, lambda2, mu)
+    loss_save <- c(loss_save, loss)
     if (abs(loss - loss_prev) < 1e-4) {
       break
     }
@@ -65,7 +67,7 @@ optim_wh <- function(X, A, S, A0, H0, W0, lambda1, lambda2, mu) {
     W_prev <- W
     loss_prev <- loss
   }
-  return(list(W, H))
+  return(list(W, H, loss_save))
 }
 
 # Wang inhouse
