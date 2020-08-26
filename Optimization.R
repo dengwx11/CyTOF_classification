@@ -44,7 +44,7 @@ update_h_mat <- function(W, X, H_prev) {
 }
 
 loss_func <- function(X, A, S, A0, H, W, lambda1, lambda2, mu) {
-  decov <- sum(diag(t(X - W %*% H) %*% (X - W %*% H)))
+  decov <- 1 / 2 * sum(diag(t(X - W %*% H) %*% (X - W %*% H)))
   trace <- lambda1 * sum(diag(t(W) %*% A %*% S)) + lambda2 * sum(diag(t(W) %*% A0))
   regu <- mu * sum(diag(t(W) %*% W))
   return(decov - trace + regu)
