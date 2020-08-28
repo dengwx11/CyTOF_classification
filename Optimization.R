@@ -73,10 +73,10 @@ optim_wh <- function(X, A, S, A0, H0, W0, lambda1, lambda2, mu) {
 }
 
 # Wang inhouse
-S <- read.csv('/home/bz234/project/Objects/Optimization//Wang/S_wang_inhouse.csv', row.names = 1)
-X <- read.csv('/home/bz234/project/Objects/Optimization/Wang/X_wang_inhouse.csv', row.names = 1)
-A <- read.csv('/home/bz234/project/Objects/Optimization/Wang/A_wang_inhouse.csv', row.names = 1)
-A0 <- read.csv('/home/bz234/project/Objects/Optimization/Wang/A0_wang_inhouse.csv', row.names = 1)
+S <- read.csv('/gpfs/loomis/project/zhao/bz234/Objects/Optimization//Wang/S_wang_inhouse.csv', row.names = 1)
+X <- read.csv('/gpfs/loomis/project/zhao/bz234/Objects/Optimization/Wang/X_wang_inhouse.csv', row.names = 1)
+A <- read.csv('/gpfs/loomis/project/zhao/bz234/Objects/Optimization/Wang/A_wang_inhouse.csv', row.names = 1)
+A0 <- read.csv('/gpfs/loomis/project/zhao/bz234/Objects/Optimization/Wang/A0_wang_inhouse.csv', row.names = 1)
 
 S <- as.matrix(S)
 X <- as.matrix(X)
@@ -103,6 +103,6 @@ lambda2 <- .5
 mu <- .5
 
 results <- optim_wh(X, A, S, A0, H0, W0, lambda1, lambda2, mu)
-write.csv(results[[1]], '/home/bz234/project/Objects/Optimization/Wang/W_inhouse_optim.csv')
-write.csv(results[[2]], '/home/bz234/project/Objects/Optimization/Wang/H_inhouse_optim.csv')
-write.csv(results[[3]], '/home/bz234/project/Objects/Optimization/Wang/Loss_inhouse_optim.csv')
+write.csv(results[[1]], '/gpfs/loomis/project/zhao/bz234/Objects/Optimization/Wang/W_inhouse_optim.csv')
+write.csv(results[[2]], '/gpfs/loomis/project/zhao/bz234/Objects/Optimization/Wang/H_inhouse_optim.csv')
+write.csv(results[[3]], '/gpfs/loomis/project/zhao/bz234/Optimization/Wang/Loss_inhouse_optim.csv')
