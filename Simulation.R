@@ -8,7 +8,7 @@ G = 100 # RNA gene number
 pi_ber1 = 0.55
 pi_ber2 = 0.9
 
-#generate gamma
+#generate gamma: A0
 generate_gamma <- function(D, K, pi_ber1, pi_ber2){
     gamma <- matrix(rbinom(n=D*K, size = 1, prob = pi_ber1), nrow = D, ncol = K)
     gamma <- gamma * (matrix(rbinom(n=D*K, size = 1, prob = pi_ber2), nrow = D, ncol = K)-0.5) * 2
@@ -50,7 +50,8 @@ simulate_gamma <- function(iteration, K, D){  ## iteration could be set as 1,3,1
 }
 
 simulate_w_pre <- function(D,K, big_w_mean=2, big_tau_w = 10, small_w_mean=0.5, small_tau_w = 10){
-    
+    ## big_w_mean and small_w_mean could be closer
+    ## big_tau_w and small_tau_w could be smaller
     big_w <- matrix(rnorm(D*K, mean = big_w_mean, sd = 1/sqrt(big_tau_w)), nrow = D, ncol = K)
     small_w <- matrix(rnorm(D*K, mean = small_w_mean, sd = 1/sqrt(small_tau_w)), nrow = D, ncol = K)
     

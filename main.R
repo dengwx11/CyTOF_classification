@@ -1,6 +1,13 @@
 set.seed(2020)
 source('run_opt.R')
 
+K = 5 # cell types number ## K could be larger
+D = 10 # surface markers number
+N = 500 # ADT/CyTOF cell number ## N could be larger
+G = 100 # RNA gene number
+pi_ber1 = 0.55
+pi_ber2 = 0.9
+
 ## lambda1 and lambda2 could be found by screening on |X-WH|_F
 
 ## full penalization
