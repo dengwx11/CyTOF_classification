@@ -19,6 +19,15 @@ colnames(X) <- c(1:N)
 seur <- CreateSeuratObject(X)
 seur@meta.data$label <- label.output$label[1,]
 
+seur <- NormalizeData(seur) 
+seur <- FindVariableFeatures(seur, slot='counts', selection.method = "vst", nfeatures = 10)
+seur <- ScaleData(seur, slot='counts')
+seur <- RunPCA(seur,slot='counts', verbose = FALSE,features = rownames(seur))
+
+seur <- FindNeighbors(seur, dims = 1:5)
+seur <- FindClusters(seur, resolution = 0.8)
+seur <- RunUMAP(seur, dims = 1:5)
+DimPlot(seur, reduction='umap', group.by = 'label')
 
 Idents(seur) <- 'label'
 RidgePlot(seur, slot = 'counts',features = rownames(seur))

@@ -1,9 +1,9 @@
 set.seed(2020)
 library(Seurat)
 
-K = 5 # cell types number
+K = 5 # cell types number ## K could be larger
 D = 10 # surface markers number
-N = 500 # ADT/CyTOF cell number
+N = 500 # ADT/CyTOF cell number ## N could be larger
 G = 100 # RNA gene number
 pi_ber1 = 0.55
 pi_ber2 = 0.9
@@ -31,7 +31,7 @@ max_cos <- function(w){
     return(max_cos)
 }
 
-simulate_gamma <- function(iteration, K, D){
+simulate_gamma <- function(iteration, K, D){  ## iteration could be set as 1,3,10
     gamma.list <- list()
     cos.list <- list()
     output <- list()
@@ -93,18 +93,18 @@ simulate_label <- function(D,N,K, prob_k = c(1,2,2,3,3)){
     return(output)
 }
 
-simulate_x <- function(D,N,w,label, mean_var_ratio = 10){
+simulate_x <- function(D,N,w,label, mean_var_ratio = 10){ ## 'mean_var_ratio' could be adjusted
     X <- matrix(0, nrow = D, ncol = N)
     for(i in 1:N){
         celltype <- label[1,i]
         for(j in 1:D){
-            X[j,i] <- rnorm(1, mean=w[j,celltype], sd = sqrt(w[j,celltype]/5) )
+            X[j,i] <- rnorm(1, mean=w[j,celltype], sd = sqrt(w[j,celltype]/mean_var_ratio) )  
         }
     }
     return(X)
 }
 
-simulate_AS <- function(D,K,w,corr = 0.5){
+simulate_AS <- function(D,K,w,corr = 0.5){  ## 'corr' could be adjusted
     AS <- matrix(0, nrow = D, ncol = K)
     for(i in 1:D){
         for(j in 1:K){
