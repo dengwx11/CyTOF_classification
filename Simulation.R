@@ -1,9 +1,11 @@
 set.seed(2020)
 library(Seurat)
 
-K = 5 # cell types number ## K could be larger
+# K = 5 # cell types number ## K could be larger
+K = 7
 D = 10 # surface markers number
-N = 500 # ADT/CyTOF cell number ## N could be larger
+# N = 500 # ADT/CyTOF cell number ## N could be larger
+N = 2000
 G = 100 # RNA gene number
 pi_ber1 = 0.55
 pi_ber2 = 0.9
@@ -71,7 +73,7 @@ simulate_w <- function(D, K, gamma, p.0 = 0.1, q.0=.2, p.neg1= 0.05, q.neg1 = 0.
     gamma_post[which(gamma==-1)] <- sample(c(0:2), size = length(which(gamma==-1)), 
                                         replace = T, prob = c(1-p.neg1-q.neg1, q.neg1, p.neg1))                                                                           
 
-    w_pre <- simulate_w_pre( D, K)
+    w_pre <- simulate_w_pre(D, K, big_w_mean=2, big_tau_w = 8, small_w_mean=1, small_tau_w = 8)
     w <- matrix(0, nrow = D, ncol = K)
     w[which(gamma_post == 2)] <- w_pre$big_w[which(gamma_post == 2)]
     w[which(gamma_post == 1)] <- w_pre$small_w[which(gamma_post == 1)]

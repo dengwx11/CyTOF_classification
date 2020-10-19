@@ -58,6 +58,6 @@ update_H <- function(X, W, H, K, N){
 }
 
 compute_L <- function(X,W,H,lambda1,lambda2,mu){
-    L = 0.5 * norm(X-W%*%H, type='F') - lambda1 * sum(diag(t(W)%*%AS)) - lambda2 * sum(diag(t(W)%*%A0)) + mu * norm(W,type="F")^2
+    L = 0.5 * norm(X-W%*%H, type='F')^2 - lambda1 * sum(diag(t(W)%*%AS)) - lambda2 * sum(diag(t(W)%*%A0)) + mu * norm(W,type="F")^2
     return(L)
 }
