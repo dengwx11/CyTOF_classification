@@ -1,0 +1,11 @@
+﻿,CD4+T cell,naïve B cells,naïve B cells,NK cell,classical monocytes,non-classical monocytes
+CD154,0,0,0,0,1,1
+CD4,1,-1,0,0,0,0
+CD56,0,0,0,1,-1,-1
+CD3,1,1,-1,-1,-1,-1
+CD19,0,0,1,-1,-1,-1
+CD14,0,0,0,-1,1,-1
+CD11c,0,0,0,1,0,0
+CD8,-1,1,0,0,0,0
+CD16,0,0,0,1,-1,1
+CD127,1,1,0,0,0,0
