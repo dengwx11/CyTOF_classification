@@ -1,9 +1,18 @@
 set.seed(2020)
 source('run_opt.R')
 
+# scenario 1
+K = 8 # cell types number ## K could be larger
+D = 10 # surface markers number
+N = 2000 # ADT/CyTOF cell number ## N could be larger
+G = 100 # RNA gene number
+pi_ber1 = 0.55
+pi_ber2 = 0.9
+
+# scenario 2
 K = 5 # cell types number ## K could be larger
 D = 10 # surface markers number
-N = 500 # ADT/CyTOF cell number ## N could be larger
+N = 2000 # ADT/CyTOF cell number ## N could be larger
 G = 100 # RNA gene number
 pi_ber1 = 0.55
 pi_ber2 = 0.9
@@ -11,22 +20,22 @@ pi_ber2 = 0.9
 ## lambda1 and lambda2 could be found by screening on |X-WH|_F
 
 ## full penalization
-rst<-run(X,0.5,0.5,1,AS,A0,D,K,N)
+rst<-run(X,0.4,2.3,1,1,AS,A0,D,K,N, epsilon = 10^(-4))
 plot(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 
 ## without AS
-rst<-run(X,0,1,1,AS,A0,D,K,N)
+rst<-run(X,0,1,1,1,AS,A0,D,K,N, epsilon = 10^(-2))
 plot(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 
 ## without A0
-rst<-run(X,1,0,1,AS,A0,D,K,N)
+rst<-run(X,1,0,1,1,AS,A0,D,K,N, epsilon = 10^(-2))
 plot(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 
 ## without any penalization
-rst<-run(X,0,0,1,AS,A0,D,K,N)
+rst<-run(X,0,0,1,1,AS,A0,D,K,N, epsilon = 10^(-2))
 plot(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 

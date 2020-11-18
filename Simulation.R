@@ -1,14 +1,7 @@
 set.seed(2020)
 library(Seurat)
 
-# K = 5 # cell types number ## K could be larger
-K = 7
-D = 10 # surface markers number
-# N = 500 # ADT/CyTOF cell number ## N could be larger
-N = 2000
-G = 100 # RNA gene number
-pi_ber1 = 0.55
-pi_ber2 = 0.9
+
 
 #generate gamma: A0
 generate_gamma <- function(D, K, pi_ber1, pi_ber2){
@@ -51,20 +44,20 @@ simulate_gamma <- function(iteration, K, D){  ## iteration could be set as 1,3,1
     return(output)
 }
 
-simulate_w_pre <- function(D,K, big_w_mean=2, big_tau_w = 10, small_w_mean=0.5, small_tau_w = 10){
+simulate_w_pre <- function(D,K, big_w_mean=2, big_tau_w = 5, small_w_mean=1, small_tau_w = 5){
     ## big_w_mean and small_w_mean could be closer
     ## big_tau_w and small_tau_w could be smaller
     big_w <- matrix(rnorm(D*K, mean = big_w_mean, sd = 1/sqrt(big_tau_w)), nrow = D, ncol = K)
     small_w <- matrix(rnorm(D*K, mean = small_w_mean, sd = 1/sqrt(small_tau_w)), nrow = D, ncol = K)
     
     output <- list()
-    output$big_w <- big_w
-    output$small_w <- small_w
+    output$big_w <- abs(big_w)
+    output$small_w <- abs(small_w)
 
     return(output)
 }
 
-simulate_w <- function(D, K, gamma, p.0 = 0.1, q.0=.2, p.neg1= 0.05, q.neg1 = 0.1){
+simulate_w <- function(D, K, gamma, p.0 = p.0, q.0=q.0, p.neg1= p.neg1, q.neg1 = q.neg1){
     gamma_post <- matrix(0, nrow = D, ncol = K)
     gamma_post[which(gamma==0)] <- sample(c(0:2), size = length(which(gamma==0)), 
                                         replace = T, prob = c(1-p.0-q.0, q.0, p.0))
@@ -73,7 +66,7 @@ simulate_w <- function(D, K, gamma, p.0 = 0.1, q.0=.2, p.neg1= 0.05, q.neg1 = 0.
     gamma_post[which(gamma==-1)] <- sample(c(0:2), size = length(which(gamma==-1)), 
                                         replace = T, prob = c(1-p.neg1-q.neg1, q.neg1, p.neg1))                                                                           
 
-    w_pre <- simulate_w_pre(D, K, big_w_mean=2, big_tau_w = 8, small_w_mean=1, small_tau_w = 8)
+    w_pre <- simulate_w_pre(D, K, big_w_mean=big_w_mean, big_tau_w = big_tau_w, small_w_mean=small_w_mean, small_tau_w = small_tau_w)
     w <- matrix(0, nrow = D, ncol = K)
     w[which(gamma_post == 2)] <- w_pre$big_w[which(gamma_post == 2)]
     w[which(gamma_post == 1)] <- w_pre$small_w[which(gamma_post == 1)]
@@ -96,7 +89,7 @@ simulate_label <- function(D,N,K, prob_k = c(1,2,2,3,3)){
     return(output)
 }
 
-simulate_x <- function(D,N,w,label, mean_var_ratio = 10){ ## 'mean_var_ratio' could be adjusted
+simulate_x <- function(D,N,w,label, mean_var_ratio = mean_var_ratio){ ## 'mean_var_ratio' could be adjusted
     X <- matrix(0, nrow = D, ncol = N)
     for(i in 1:N){
         celltype <- label[1,i]
@@ -107,7 +100,7 @@ simulate_x <- function(D,N,w,label, mean_var_ratio = 10){ ## 'mean_var_ratio' co
     return(X)
 }
 
-simulate_AS <- function(D,K,w,corr = 0.5){  ## 'corr' could be adjusted
+simulate_AS <- function(D,K,w,corr = corr){  ## 'corr' could be adjusted
     AS <- matrix(0, nrow = D, ncol = K)
     for(i in 1:D){
         for(j in 1:K){
