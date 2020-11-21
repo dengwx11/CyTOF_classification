@@ -1,12 +1,7 @@
 set.seed(2020)
 library(Seurat)
 
-K = 5 # cell types number ## K could be larger
-D = 10 # surface markers number
-N = 500 # ADT/CyTOF cell number ## N could be larger
-G = 100 # RNA gene number
-pi_ber1 = 0.55
-pi_ber2 = 0.9
+
 
 #generate gamma: A0
 generate_gamma <- function(D, K, pi_ber1, pi_ber2){

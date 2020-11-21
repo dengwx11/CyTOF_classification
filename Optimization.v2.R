@@ -27,9 +27,20 @@ update_w <- function(x, w, H, mu, as, a0, K, lambda1, lambda2){
     return(new_w)
 }
 
-update_h <- function(x,h,W){
-    new_h <- h * ( t(W) %*% x )/(t(W) %*% W %*% h + 10^(-16))
-    new_h <- new_h/sum(new_h)
+update_h <- function(x,h,W, eta){
+    one_k <- matrix(1, nrow = nrow(h),ncol=1)
+    one_kk <- matrix(1, nrow = nrow(h), ncol = nrow(h))
+
+    ## model 0
+    #new_h <- h * ( t(W) %*% x  )/(t(W) %*% W %*% h + 10^(-16))
+    #new_h <- new_h/sum(new_h)
+
+    ## model 1
+    new_h <- h * ( t(W) %*% x + eta * one_k )/(t(W) %*% W %*% h + eta * one_kk %*% h + 10^(-16))
+
+    ## model 2
+    #new_h <- h * ( t(W) %*% x )/(t(W) %*% W %*% h + eta * one_k + 10^(-16))
+    
     return(new_h)
 }
 
@@ -46,18 +57,18 @@ update_W <- function(X, W, H, mu, AS, A0, D, K, lambda1, lambda2){
     return(W)
 }
 
-update_H <- function(X, W, H, K, N){
+update_H <- function(X, W, H, K, N, eta){
 
     for(j in 1:N){
         x = matrix(X[,j],nrow=D,ncol=1)
         h = matrix(H[,j],nrow=K,ncol=1)
-        H[,j] <- update_h(x,h,W)
+        H[,j] <- update_h(x,h,W,eta)
     }
 
     return(H)
 }
 
-compute_L <- function(X,W,H,lambda1,lambda2,mu){
+compute_L <- function(X,W,H,lambda1,lambda2,mu,eta){
     L = 0.5 * norm(X-W%*%H, type='F')^2 - lambda1 * sum(diag(t(W)%*%AS)) - lambda2 * sum(diag(t(W)%*%A0)) + mu * norm(W,type="F")^2
     return(L)
 }
