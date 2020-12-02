@@ -2,7 +2,7 @@ set.seed(2020)
 source('run_opt.R')
 
 ## Input
-A <- as.matrix(read.csv('./write/matrix_A/inhouse_w_hvg_covid_s_35_a.csv',sep=' '))
+A <- as.matrix(read.csv('../write/matrix_A/inhouse_w_hvg_covid_s_35_a.csv',sep=' '))
 S <- readRDS('./write/matrix_S/hvgs_inhouse_w_covid_s.rds')
 X <- as.matrix(read.table('./write/matrix_X/X_inhouse.txt'))
 A0 <- read.csv('./write/matrix_A0/A0_inhouse.csv')

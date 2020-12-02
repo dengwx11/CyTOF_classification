@@ -7,47 +7,16 @@ library(ggplot2)
 
 ## lambda1 and lambda2 could be found by screening on |X-WH|_F
 
-# ## full penalization
-rst<-run(X,0.4,.5,3.5,2,AS,A0,D,K,N, epsilon = 10^(-4))
-plot(as.vector(W),as.vector(rst$W))
-cor(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
-
-## without AS
-rst<-run(X,0,.5,2,2,AS,A0,D,K,N, epsilon = 10^(-2))
-plot(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
-
-## without A0
-rst<-run(X,.4,0,2,2,AS,A0,D,K,N, epsilon = 10^(-2))
-plot(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
-
-## without any penalization
-rst<-run(X,0,0,2,2,AS,A0,D,K,N, epsilon = 10^(-2))
-plot(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
 
 ## full penalization
-rst<-run(X,0,60,25,70,AS,A0,D,K,N, epsilon = 10^(-3))
+rst<-run(X,2,100,60,70,AS,A0,D,K,N, epsilon = 10^(-3))
+rst<-run(X,0,10,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
+rst<-run(X,1,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
+rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 plot(as.vector(W),as.vector(rst$W))
 cor(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 
-## without AS
-rst<-run(X,0,.5,2,2,AS,A0,D,K,N, epsilon = 10^(-2))
-plot(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
-
-## without A0
-rst<-run(X,0,1,25,70,AS,A0,D,K,N, epsilon = 10^(-2))
-plot(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
-
-## without any penalization
-rst<-run(X,0,0,25,70,AS,A0,D,K,N, epsilon = 10^(-3))
-plot(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
 
 
 
@@ -77,6 +46,7 @@ for(i in 1:length(truth)){
     cnt_max = cnt_max + infer_max(truth[i], rst$H[,i])
 }  
 print(c(cnt,cnt_max))
+print(cnt_max/N)
 
 
 

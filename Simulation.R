@@ -44,7 +44,7 @@ simulate_gamma <- function(iteration, K, D){  ## iteration could be set as 1,3,1
     return(output)
 }
 
-simulate_w_pre <- function(D,K, big_w_mean=2, big_tau_w = 10, small_w_mean=0.5, small_tau_w = 10){
+simulate_w_pre <- function(D,K, big_w_mean=big_w_mean, big_tau_w = big_tau_w, small_w_mean=small_w_mean, small_tau_w = small_tau_w){
     ## big_w_mean and small_w_mean could be closer
     ## big_tau_w and small_tau_w could be smaller
     big_w <- abs(matrix(rnorm(D*K, mean = big_w_mean, sd = 1/sqrt(big_tau_w)), nrow = D, ncol = K))
@@ -57,7 +57,10 @@ simulate_w_pre <- function(D,K, big_w_mean=2, big_tau_w = 10, small_w_mean=0.5, 
     return(output)
 }
 
-simulate_w <- function(D, K, gamma, p.0 = 0.1, q.0=.2, p.neg1= 0.05, q.neg1 = 0.1){
+simulate_w <- function(D, K, gamma, 
+                        p.0 = p.0, q.0=q.0, p.neg1= p.neg1, q.neg1 = q.neg1, 
+                        big_w_mean=big_w_mean, big_tau_w = big_tau_w, 
+                        small_w_mean=small_w_mean, small_tau_w = small_tau_w){
     gamma_post <- matrix(0, nrow = D, ncol = K)
     gamma_post[which(gamma==0)] <- sample(c(0:2), size = length(which(gamma==0)), 
                                         replace = T, prob = c(1-p.0-q.0, q.0, p.0))
@@ -66,7 +69,7 @@ simulate_w <- function(D, K, gamma, p.0 = 0.1, q.0=.2, p.neg1= 0.05, q.neg1 = 0.
     gamma_post[which(gamma==-1)] <- sample(c(0:2), size = length(which(gamma==-1)), 
                                         replace = T, prob = c(1-p.neg1-q.neg1, q.neg1, p.neg1))                                                                           
 
-    w_pre <- simulate_w_pre( D, K)
+    w_pre <- simulate_w_pre( D, K, big_w_mean=big_w_mean, big_tau_w = big_tau_w, small_w_mean=small_w_mean, small_tau_w = small_tau_w)
     w <- matrix(0, nrow = D, ncol = K)
     w[which(gamma_post == 2)] <- w_pre$big_w[which(gamma_post == 2)]
     w[which(gamma_post == 1)] <- w_pre$small_w[which(gamma_post == 1)]
@@ -75,7 +78,7 @@ simulate_w <- function(D, K, gamma, p.0 = 0.1, q.0=.2, p.neg1= 0.05, q.neg1 = 0.
     return(w)
 }
 
-simulate_label <- function(D,N,K, prob_k = c(1,2,2,3,3)){
+simulate_label <- function(D,N,K, prob_k = prob_k){
     label <- matrix(sample(c(1:K),size = N, replace = T, prob = prob_k), nrow = 1, ncol = N)
     H <- matrix(0, nrow = D, ncol = N)
     H <- sapply(c(1:N), function(i) {
@@ -89,12 +92,12 @@ simulate_label <- function(D,N,K, prob_k = c(1,2,2,3,3)){
     return(output)
 }
 
-simulate_x <- function(D,N,w,label, mean_var_ratio = 10){ ## 'mean_var_ratio' could be adjusted
+simulate_x <- function(D,N,w,label, mean_var_ratio = mean_var_ratio){ ## 'mean_var_ratio' could be adjusted
     X <- matrix(0, nrow = D, ncol = N)
     for(i in 1:N){
         celltype <- label[1,i]
         for(j in 1:D){
-            X[j,i] <- rnorm(1, mean=w[j,celltype], sd = sqrt(w[j,celltype]/mean_var_ratio) )  
+            X[j,i] <- rnorm(1, mean=w[j,celltype], sd = sqrt(w[j,celltype]/mean_var_ratio) ) 
         }
     }
     return(X)
