@@ -1,5 +1,5 @@
 update_w <- function(x, w, H, mu, as, a0, K, lambda1, lambda2){
-    term1 <- w %*% (H%*%t(H)+2*mu*diag(K))
+    term1 <- w %*% (H%*%t(H)+mu*diag(K))
     term2 <- x %*% t(H)
     term3 <- lambda1 * as
     term4 <- lambda2 * a0
@@ -22,7 +22,7 @@ update_w <- function(x, w, H, mu, as, a0, K, lambda1, lambda2){
     term3.neg[1, which(term3<0)] <- -term3[ which(term3<0) ]
     term4.neg[1, which(term4<0)] <- -term4[ which(term4<0) ]
 
-    new_w <- w * (term1.neg + term2.pos + term3.pos + term4.pos)/(term1.pos + term2.neg + term3.neg+term4.neg + 10^(-16))
+    new_w <- w * (term1.neg + term2.pos + term3.pos + term4.pos)/(term1.pos + term2.neg + term3.neg+term4.neg )
 
     return(new_w)
 }
@@ -36,7 +36,7 @@ update_h <- function(x,h,W, eta){
     #new_h <- new_h/sum(new_h)
 
     ## model 1
-    new_h <- h * ( t(W) %*% x + eta * one_k )/(t(W) %*% W %*% h + eta * one_kk %*% h + 10^(-16))
+    new_h <- h * ( t(W) %*% x + eta * one_k )/(t(W) %*% W %*% h + eta * one_kk %*% h )
 
     ## model 2
     #new_h <- h * ( t(W) %*% x )/(t(W) %*% W %*% h + eta * one_k + 10^(-16))
@@ -69,6 +69,14 @@ update_H <- function(X, W, H, K, N, eta){
 }
 
 compute_L <- function(X,W,H,lambda1,lambda2,mu,eta){
-    L = 0.5 * norm(X-W%*%H, type='F')^2 - lambda1 * sum(diag(t(W)%*%AS)) - lambda2 * sum(diag(t(W)%*%A0)) + mu * norm(W,type="F")^2
+    one_k <- matrix(1, nrow = 1,ncol= nrow(H))
+    one_N <- matrix(1, nrow = 1,ncol = ncol(H))
+    L1 = 0.5 * norm(X-W%*%H, type='F')^2
+    L2 = lambda1 * sum(diag(t(W)%*%AS))
+    L3 = lambda2 * sum(diag(t(W)%*%A0))
+    L4 = mu/2 * norm(W,type="F")^2
+    L5 = eta/2 * norm(one_k %*% H - one_N, type = "2")^2
+    L= L1 - L2 - L3 + L4 + L5
+    print(c(L,L1,L2,L3,L4,L5))
     return(L)
 }

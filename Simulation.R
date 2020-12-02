@@ -47,8 +47,8 @@ simulate_gamma <- function(iteration, K, D){  ## iteration could be set as 1,3,1
 simulate_w_pre <- function(D,K, big_w_mean=2, big_tau_w = 10, small_w_mean=0.5, small_tau_w = 10){
     ## big_w_mean and small_w_mean could be closer
     ## big_tau_w and small_tau_w could be smaller
-    big_w <- matrix(rnorm(D*K, mean = big_w_mean, sd = 1/sqrt(big_tau_w)), nrow = D, ncol = K)
-    small_w <- matrix(rnorm(D*K, mean = small_w_mean, sd = 1/sqrt(small_tau_w)), nrow = D, ncol = K)
+    big_w <- abs(matrix(rnorm(D*K, mean = big_w_mean, sd = 1/sqrt(big_tau_w)), nrow = D, ncol = K))
+    small_w <- abs(matrix(rnorm(D*K, mean = small_w_mean, sd = 1/sqrt(small_tau_w)), nrow = D, ncol = K))
     
     output <- list()
     output$big_w <- big_w
@@ -109,5 +109,3 @@ simulate_AS <- function(D,K,w,corr = 0.5){  ## 'corr' could be adjusted
     }
     return(AS)
 }
-
-

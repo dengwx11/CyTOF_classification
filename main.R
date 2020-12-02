@@ -1,34 +1,16 @@
 set.seed(2020)
 source('run_opt.R')
+library(ggplot2)
 
 
-K = 5 # cell types number ## K could be larger
-D = 10 # surface markers number
-N = 1000 # ADT/CyTOF cell number ## N could be larger
-G = 100 # RNA gene number
-pi_ber1 = 0.55
-pi_ber2 = 0.9
+
 
 ## lambda1 and lambda2 could be found by screening on |X-WH|_F
 
 # ## full penalization
-# rst<-run(X,0.5,0.5,1,AS,A0,D,K,N)
-# plot(as.vector(W),as.vector(rst$W))
-# plot(as.vector(true.H),as.vector(rst$H))
-
-# ## without AS
-# rst<-run(X,0,1,1,AS,A0,D,K,N)
-# plot(as.vector(W),as.vector(rst$W))
-# plot(as.vector(true.H),as.vector(rst$H))
-
-# ## without A0
-# rst<-run(X,1,0,1,AS,A0,D,K,N)
-# plot(as.vector(W),as.vector(rst$W))
-# plot(as.vector(true.H),as.vector(rst$H))
-
-## full penalization
-rst<-run(X,0.4,.5,2,2,AS,A0,D,K,N, epsilon = 10^(-4))
+rst<-run(X,0.4,.5,3.5,2,AS,A0,D,K,N, epsilon = 10^(-4))
 plot(as.vector(W),as.vector(rst$W))
+cor(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 
 ## without AS
@@ -46,6 +28,27 @@ rst<-run(X,0,0,2,2,AS,A0,D,K,N, epsilon = 10^(-2))
 plot(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
 
+## full penalization
+rst<-run(X,0,60,25,70,AS,A0,D,K,N, epsilon = 10^(-3))
+plot(as.vector(W),as.vector(rst$W))
+cor(as.vector(W),as.vector(rst$W))
+plot(as.vector(true.H),as.vector(rst$H))
+
+## without AS
+rst<-run(X,0,.5,2,2,AS,A0,D,K,N, epsilon = 10^(-2))
+plot(as.vector(W),as.vector(rst$W))
+plot(as.vector(true.H),as.vector(rst$H))
+
+## without A0
+rst<-run(X,0,1,25,70,AS,A0,D,K,N, epsilon = 10^(-2))
+plot(as.vector(W),as.vector(rst$W))
+plot(as.vector(true.H),as.vector(rst$H))
+
+## without any penalization
+rst<-run(X,0,0,25,70,AS,A0,D,K,N, epsilon = 10^(-3))
+plot(as.vector(W),as.vector(rst$W))
+plot(as.vector(true.H),as.vector(rst$H))
+
 
 
 
@@ -58,6 +61,9 @@ infer <- function(truth, h){
 }
 infer_max <- function(truth,h){
     return(1*(h[truth]==max(h)))
+}
+predict<-function(h){
+    return(which(h == max(h)))
 }
 
 truth = label.output$label
@@ -73,8 +79,13 @@ for(i in 1:length(truth)){
 print(c(cnt,cnt_max))
 
 
-predict<-function(h){
-    return(which(h == max(h)))
-}
+
 celltype_pred <- apply(rst$H, 2, predict)
-celltype_pred <- as.character(celltype_pred)
+#celltype_pred <- as.character(celltype_pred)
+df.plot <- data.frame(x = X.umap$layout[,1],y=X.umap$layout[,2],
+                            true_label = factor(label.output$label[1,]),
+                            pred_label = factor(celltype_pred))
+ggplot(df.plot, aes(x=x,y=y,color=true_label)) + geom_point() 
+ggplot(df.plot, aes(x=x,y=y,color=pred_label)) + geom_point()                         
+plot(X.umap$layout,col=label.output$label)
+plot(X.umap$layout,col=celltype_pred)
