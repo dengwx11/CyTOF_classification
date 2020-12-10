@@ -2,6 +2,7 @@ source("Simulation.R")
 set.seed(2020)
 
 ## senario 1
+set.seed(2020)
 K = 5 # cell types number ## K could be larger
 D = 10 # surface markers number
 N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -75,7 +76,8 @@ mean_var_ratio = 3
 corr = 0.3
 #prob_k = c(1,2,2,3,3)
 prob_k = c(3,1,2,3,3,1,2,1)
-### rst<-run(X,0,60,25,70,AS,A0,D,K,N, epsilon = 10^(-3))
+### rst<-run(X,1,15,40,10,AS,A0,D,K,N, epsilon = 10^(-3))
+
 
 ## senario 4
 set.seed(2020)
@@ -100,7 +102,9 @@ mean_var_ratio = 2
 corr = 0.2
 #prob_k = c(1,2,2,3,3)
 prob_k = c(3,1,2,3,3,1,2,1)
-### rst<-run(X,3,60,60,20,AS,A0,D,K,N, epsilon = 10^(-3))
+### rst<-run(X,3,45,60,10,AS,A0,D,K,N, epsilon = 10^(-3))
+
+
 
 
 
@@ -124,20 +128,33 @@ X.umap = umap(t(X))
 plot(X.umap$layout,col=label.output$label)
 
 
-# rownames(X) <- c(1:D)
-# colnames(X) <- c(1:N)
-# seur <- CreateSeuratObject(X)
-# seur@meta.data$label <- label.output$label[1,]
+
 
 # seur <- NormalizeData(seur) 
 # seur <- FindVariableFeatures(seur, slot='counts', selection.method = "vst", nfeatures = 10)
 # seur <- ScaleData(seur, slot='counts')
 # seur <- RunPCA(seur,slot='counts', verbose = TRUE,features = rownames(seur))
 
-# seur <- FindNeighbors(seur, dims = 1:5)
-# seur <- FindClusters(seur, resolution = 0.8)
-# seur <- RunUMAP(seur, dims = 1:5)
-# DimPlot(seur, reduction='umap', group.by = 'label')
+
+
 
 # Idents(seur) <- 'label'
 # RidgePlot(seur, slot = 'counts',features = rownames(seur))
+
+
+## get louvain cluster
+rownames(X) <- c(1:D)
+colnames(X) <- c(1:N)
+seur <- CreateSeuratObject(X)
+seur@meta.data$label <- label.output$label[1,]
+seur <- NormalizeData(seur) 
+seur@assays$RNA@data = seur@assays$RNA@counts
+seur <- FindVariableFeatures(seur, slot='counts', selection.method = "vst", nfeatures = 10)
+seur <- ScaleData(seur)
+seur <- RunPCA(seur,verbose = TRUE,features = rownames(seur))
+seur <- FindNeighbors(seur, dims = 1:6)
+seur <- FindClusters(seur, resolution = 1)
+seur <- RunUMAP(seur, dims = 1:5)
+DimPlot(seur, reduction='umap', group.by = 'label')
+
+DimPlot(seur, reduction='umap',group.by='seurat_clusters')

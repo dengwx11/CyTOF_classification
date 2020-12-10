@@ -77,6 +77,13 @@ compute_L <- function(X,W,H,lambda1,lambda2,mu,eta){
     L4 = mu/2 * norm(W,type="F")^2
     L5 = eta/2 * norm(one_k %*% H - one_N, type = "2")^2
     L= L1 - L2 - L3 + L4 + L5
-    print(c(L,L1,L2,L3,L4,L5))
+    #print(c(L,L1,L2,L3,L4,L5))
     return(L)
+}
+
+compute_L1 <- function(X,rst){
+    W = rst$W
+    H = rst$H
+    L1 = 0.5 * norm(X-W%*%H, type='F')^2
+    return(L1)
 }

@@ -9,7 +9,7 @@ library(ggplot2)
 
 
 ## full penalization
-rst<-run(X,2,100,60,70,AS,A0,D,K,N, epsilon = 10^(-3))
+rst<-run(X,3,60,60,20,AS,A0,D,K,N, epsilon = 10^(-3))
 rst<-run(X,0,10,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 rst<-run(X,1,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
@@ -49,7 +49,7 @@ print(c(cnt,cnt_max))
 print(cnt_max/N)
 
 
-
+## prediction visualization
 celltype_pred <- apply(rst$H, 2, predict)
 #celltype_pred <- as.character(celltype_pred)
 df.plot <- data.frame(x = X.umap$layout[,1],y=X.umap$layout[,2],
@@ -59,3 +59,8 @@ ggplot(df.plot, aes(x=x,y=y,color=true_label)) + geom_point()
 ggplot(df.plot, aes(x=x,y=y,color=pred_label)) + geom_point()                         
 plot(X.umap$layout,col=label.output$label)
 plot(X.umap$layout,col=celltype_pred)
+
+seur$pred = celltype_pred
+DimPlot(seur, reduction='umap', group.by = 'pred')
+
+adjustedRandIndex(celltype_pred, seur$seurat_clusters)
