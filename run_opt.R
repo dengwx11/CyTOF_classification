@@ -19,11 +19,11 @@ run <- function(X,lambda1,lambda2,mu, eta, AS, A0, D, K, N, epsilon = 10^(-4),fi
         W <- update_W(X, W, H, mu, AS, A0, D, K, lambda1, lambda2)
         L.prev <- L.current
         L.current <- compute_L(X,W,H,lambda1,lambda2,mu,eta)
-        print(paste0("update W, L change ", L.current-L.prev))
+        #print(paste0("update W, L change ", L.current-L.prev))
         H <- update_H(X, W, H, K, N, eta)
         L.prev <- L.current
         L.current <- compute_L(X,W,H,lambda1,lambda2,mu,eta)
-        print(paste0("update H, L change ", L.current-L.prev))
+        #print(paste0("update H, L change ", L.current-L.prev))
         L.save <- c(L.save, L.current)
         if(L.min>L.current) L.min=L.current
         #print(L.current)
@@ -31,7 +31,7 @@ run <- function(X,lambda1,lambda2,mu, eta, AS, A0, D, K, N, epsilon = 10^(-4),fi
         if(fixed_loop >0 && k>fixed_loop) break
     }
 
-    print(k)
+    print(paste0("iteration = ",k))
 
     rst <- list()
     rst$W <- W

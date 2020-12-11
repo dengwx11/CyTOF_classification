@@ -1,5 +1,5 @@
 set.seed(2020)
-source('run_opt.R')
+source('run_para.R')
 library(ggplot2)
 
 
@@ -9,15 +9,18 @@ library(ggplot2)
 
 
 ## full penalization
-rst<-run(X,3,60,60,20,AS,A0,D,K,N, epsilon = 10^(-3))
+rst<-run(X,1,65,60,10,AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=1000)
 rst<-run(X,0,10,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 rst<-run(X,1,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
+
+
+rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=250,depth=4)
+rst<-run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
+            AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=0)
 plot(as.vector(W),as.vector(rst$W))
 cor(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))
-
-
 
 
 

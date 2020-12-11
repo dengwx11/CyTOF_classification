@@ -1,4 +1,4 @@
-cellID	celltyep
+cellID	celltype
 AAACCTGAGACCACGA.1	CD8+T cell
 AAACCTGAGTCGAGTG.1	naïve B cells
 AAACCTGGTGTTTGTG.1	CD8+T cell
