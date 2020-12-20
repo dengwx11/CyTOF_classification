@@ -15,9 +15,9 @@ rst<-run(X,1,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 
 
-rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=250,depth=4)
+rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=150)
 rst<-run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
-            AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=0)
+            AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 plot(as.vector(W),as.vector(rst$W))
 cor(as.vector(W),as.vector(rst$W))
 plot(as.vector(true.H),as.vector(rst$H))

@@ -31,12 +31,19 @@ update_h <- function(x,h,W, eta){
     one_k <- matrix(1, nrow = nrow(h),ncol=1)
     one_kk <- matrix(1, nrow = nrow(h), ncol = nrow(h))
 
+    term1 = t(W) %*% x
+    term1.pos <- matrix(0, nrow =nrow(h), ncol = 1)
+    term1.neg <- matrix(0, nrow =nrow(h), ncol = 1)
+    
+    term1.pos[which(term1>=0),1] <- term1[which(term1>=0)]
+    term1.neg[which(term1<0),1] <- term1[which(term1<0)]
+
     ## model 0
     #new_h <- h * ( t(W) %*% x  )/(t(W) %*% W %*% h + 10^(-16))
     #new_h <- new_h/sum(new_h)
 
     ## model 1
-    new_h <- h * ( t(W) %*% x + eta * one_k )/(t(W) %*% W %*% h + eta * one_kk %*% h )
+    new_h <- h * ( term1.pos + eta * one_k )/(term1.neg+ t(W) %*% W %*% h + eta * one_kk %*% h )
 
     ## model 2
     #new_h <- h * ( t(W) %*% x )/(t(W) %*% W %*% h + eta * one_k + 10^(-16))

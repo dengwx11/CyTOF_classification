@@ -83,25 +83,25 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
 
         print("select the best mu one more time")
         rst =  getMu2(X, depth = depth, lambda_1.init4,lambda_2.init4,mu.init2,eta.init1,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-        mu.init3 = rst$mu
-        print(paste0("mu = ",mu.init3))
+        mu.init2 = rst$mu
+        print(paste0("mu = ",mu.init2))
 
         print("select the best lambda one more time")
         rst = getLambda2(X,object = 2,depth=depth,lambda_2.init4,lambda_1.init4, mu.init3,eta.init1,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-        lambda_2.init5 = rst$lambda
-        print(lambda_2.init5)
-        rst = getLambda2(X,object = 1,depth=depth,lambda_1.init4,lambda_2.init5, mu.init3,eta.init1,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-        lambda_1.init5 = rst$lambda
-        print(lambda_1.init5)
+        lambda_2.init4 = rst$lambda
+        print(lambda_2.init4)
+        rst = getLambda2(X,object = 1,depth=depth,lambda_1.init4,lambda_2.init4, mu.init3,eta.init1,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+        lambda_1.init4 = rst$lambda
+        print(lambda_1.init4)
         ARI = rst$ARI
         print(paste0("ARI after step 8 is ",ARI))
     }
 
 
     rst$para <- list()
-    rst$para$lambda1 <- lambda_1.init5
-    rst$para$lambda2 <- lambda_2.init5
-    rst$para$mu <- mu.init3
+    rst$para$lambda1 <- lambda_1.init4
+    rst$para$lambda2 <- lambda_2.init4
+    rst$para$mu <- mu.init2
     rst$para$eta <- eta.kkt
 
     return(rst)
