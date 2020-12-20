@@ -15,12 +15,12 @@ library(ggplot2)
 # rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 
 
-rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=150,depth=4)
+rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2)
 rst<-run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 plot(as.vector(W),as.vector(rst$W))
 cor(as.vector(W),as.vector(rst$W))
-plot(as.vector(true.H),as.vector(rst$H))
+#plot(as.vector(true.H),as.vector(rst$H))
 
 
 
@@ -48,6 +48,7 @@ df.plot <- data.frame(x = X.umap$layout[,1],y=X.umap$layout[,2],
                             true_label = factor(label.output$label[1,]),
                             pred_label = factor(celltype_pred))
 ggplot(df.plot, aes(x=x,y=y,color=true_label)) + geom_point() 
+
 ggplot(df.plot, aes(x=x,y=y,color=pred_label)) + geom_point()                         
 plot(X.umap$layout,col=label.output$label)
 plot(X.umap$layout,col=celltype_pred)

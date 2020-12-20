@@ -1,5 +1,6 @@
 source("Simulation.R")
 set.seed(2020)
+library(umap)
 
 ## senario 1
 set.seed(2020)

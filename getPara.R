@@ -157,8 +157,7 @@ getLambda1 <- function(X,object = 1,lambda_object.sequence, theotherLambda, mu.i
     rst.seq <- list()
     L1.seq <- c()
     k=1
-    lambda_1.init1 <- lambda_1.sequence[1]
-    lambda_2.init1 <- lambda_2.sequence[1]
+
     L1.init1 <- 10^(8)
     ARI <- -10
     if(object==1){
@@ -369,6 +368,8 @@ getMu2 <- function(X, depth = 2, lambda_1,lambda_2,mu.init,eta,AS,A0,D,K,N,epsil
 
     mean.tmp <- mean(rst.prev$W)
     median.tmp <- median(rst.prev$W)
+    mean.X <- mean(X)
+    median.X <- median(X)
     diff.prev <- abs(mean.X-mean.tmp) + abs(median.X-median.tmp)
 
     ans=list()
