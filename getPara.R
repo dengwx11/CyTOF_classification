@@ -1,5 +1,6 @@
 set.seed(2020)
 source('run_opt.R')
+source('preparation.R')
 library(ica)
 library(mclust)
 library(cluster, quietly = TRUE)

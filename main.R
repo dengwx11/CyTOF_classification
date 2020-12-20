@@ -25,18 +25,7 @@ plot(as.vector(true.H),as.vector(rst$H))
 
 
 ## True postive rate
-get_truth <- function(true_ct){
-    return(which(H_empirical$celltype == true_ct))
-}
-infer <- function(truth, h){
-    return(1*(h[truth]>0))
-}
-infer_max <- function(truth,h){
-    return(1*(h[truth]==max(h)))
-}
-predict<-function(h){
-    return(which(h == max(h)))
-}
+
 
 truth = label.output$label
 # cnt = 0
