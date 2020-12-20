@@ -8,14 +8,14 @@ library(ggplot2)
 ## lambda1 and lambda2 could be found by screening on |X-WH|_F
 
 
-## full penalization
-rst<-run(X,1,65,60,10,AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=1000)
-rst<-run(X,0,10,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
-rst<-run(X,1,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
-rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
+# ## full penalization
+# rst<-run(X,1,65,60,10,AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=1000)
+# rst<-run(X,0,10,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
+# rst<-run(X,1,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
+# rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 
 
-rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=150)
+rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=150,depth=4)
 rst<-run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 plot(as.vector(W),as.vector(rst$W))
@@ -39,16 +39,16 @@ predict<-function(h){
 }
 
 truth = label.output$label
-cnt = 0
-for(i in 1:length(truth)){
-    cnt = cnt + infer(truth[i], rst$H[,i])
-}
+# cnt = 0
+# for(i in 1:length(truth)){
+#     cnt = cnt + infer(truth[i], rst$H[,i])
+# }
 
 cnt_max = 0
 for(i in 1:length(truth)){
     cnt_max = cnt_max + infer_max(truth[i], rst$H[,i])
 }  
-print(c(cnt,cnt_max))
+print(cnt_max)
 print(cnt_max/N)
 
 

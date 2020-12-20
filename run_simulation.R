@@ -136,7 +136,7 @@ prob_k = c(3,1,2,3,3,1,2,1)
 
 
 
-
+## generate dataset: X, AS, A0, W(ground truth), true.label
 gamma <- simulate_gamma(iteration, K, D)
 A0 <- gamma$gamma
 W <- simulate_w(D,K,A0, p.0 = p.0, q.0=q.0, p.neg1= p.neg1, q.neg1 = q.neg1, 
@@ -151,7 +151,7 @@ X <- simulate_x(D,N,W,label.output$label, mean_var_ratio = mean_var_ratio)
 true.H <- label.output$H
 
 
-
+## umap visualization
 X.umap = umap(t(X))
 plot(X.umap$layout,col=label.output$label)
 
