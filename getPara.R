@@ -30,7 +30,8 @@ getEta1 <- function(X,W.init,H.init){
 
 getEta2 <- function(X, depth = 2, lambda_1,lambda_2,mu,eta.init,AS,A0,D,K,N,epsilon,fixed_loop){
 
-
+    mean.X <- mean(X)
+    median.X <- median(X)
     eta.prev <- eta.init
     global.max = eta.prev
     global.min = eta.prev

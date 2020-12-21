@@ -8,5 +8,5 @@ infer_max <- function(truth,h){
     return(1*(h[truth]==max(h)))
 }
 predict<-function(h){
-    return(which(h == max(h)))
+    return(which(h == max(h))[1])
 }

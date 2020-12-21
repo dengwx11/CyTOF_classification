@@ -3,10 +3,23 @@ source("getPara.R")
 
 
 
-runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3){
+runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3,
+                            lambda1.on =TRUE, lambda2.on = TRUE){
     ## step 1 : get an initial eta by kkt condition
     print("step 1 : get an initial eta by kkt condition")
-    rst = run(X,1,10,50,50,AS,A0,D,K,N, epsilon = epsilon,fixed_loop=fixed_loop)
+    if(lambda1.on){
+        lambda_1.init = 1
+    }else{
+        lambda_1.init = 0
+    }
+    
+    if(lambda2.on){
+        lambda_2.init = 10
+    }else{
+        lambda_2.init = 0
+    }
+
+    rst = run(X,lambda_1.init,lambda_2.init,50,50,AS,A0,D,K,N, epsilon = epsilon,fixed_loop=fixed_loop)
     plot(as.vector(W),as.vector(rst$W))
     W.init = rst$W
     H.init = rst$H
@@ -17,14 +30,19 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
     print("step 2 : get the initial lambdas by screening")
     lambda_1.sequence = c(10^(-1),10^(0),10^(1),10^(2))
     lambda_2.sequence = c(2*10^(-1),2*10^(0),2*10^(1),2*10^(2))
-    rst = getLambda1(X,object = 2,lambda_2.sequence,1, 50,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-    lambda_1.init = rst$lambda_1.init1
-    lambda_2.init = rst$lambda_2.init1
-    print(c(lambda_1.init,lambda_2.init,rst$ARI))
-    rst = getLambda1(X,object = 1,lambda_1.sequence,lambda_2.init, 50,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-    lambda_1.init = rst$lambda_1.init1
-    lambda_2.init = rst$lambda_2.init1
-    print(c(lambda_1.init,lambda_2.init,rst$ARI))
+    if(lambda2.on){
+        rst = getLambda1(X,object = 2,lambda_2.sequence,lambda_1.init, 50,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+        lambda_1.init = rst$lambda_1.init1
+        lambda_2.init = rst$lambda_2.init1
+        print(c(lambda_1.init,lambda_2.init,rst$ARI))
+    }
+    if(lambda1.on){
+        rst = getLambda1(X,object = 1,lambda_1.sequence,lambda_2.init, 50,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+        lambda_1.init = rst$lambda_1.init1
+        lambda_2.init = rst$lambda_2.init1
+        print(c(lambda_1.init,lambda_2.init,rst$ARI))
+    }
+    
     
 
     ## step 3 : get mu by W reliability
@@ -63,12 +81,18 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
 
     ## step 7 : select the best lambda
     print("step 7 : select the best lambda")
-    rst = getLambda2(X,object = 2,depth=depth,lambda_2.init,lambda_1.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-    lambda_2.init = rst$lambda
-    print(lambda_2.init)
-    rst = getLambda2(X,object = 1,depth=depth,lambda_1.init,lambda_2.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-    lambda_1.init = rst$lambda
-    print(lambda_1.init)
+    if(lambda2.on){
+        rst = getLambda2(X,object = 2,depth=depth,lambda_2.init,lambda_1.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+        lambda_2.init = rst$lambda
+        print(lambda_2.init)
+    }
+
+    if(lambda1.on){
+        rst = getLambda2(X,object = 1,depth=depth,lambda_1.init,lambda_2.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+        lambda_1.init = rst$lambda
+        print(lambda_1.init)
+    }
+
     ARI = rst$ARI
     print(paste0("ARI after step 7 is ",ARI))
     
@@ -86,12 +110,16 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
         print(paste0("mu = ",mu.init))
 
         print("select the best lambda one more time")
-        rst = getLambda2(X,object = 2,depth=depth,lambda_2.init,lambda_1.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-        lambda_2.init = rst$lambda
-        print(lambda_2.init)
-        rst = getLambda2(X,object = 1,depth=depth,lambda_1.init,lambda_2.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
-        lambda_1.init = rst$lambda
-        print(lambda_1.init)
+        if(lambda2.on){
+            rst = getLambda2(X,object = 2,depth=depth,lambda_2.init,lambda_1.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+            lambda_2.init = rst$lambda
+            print(lambda_2.init)
+        }
+        if(lambda1.on){
+            rst = getLambda2(X,object = 1,depth=depth,lambda_1.init,lambda_2.init, mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
+            lambda_1.init = rst$lambda
+            print(lambda_1.init)
+        }
         ARI = rst$ARI
         print(paste0("ARI after step 8 is ",ARI))
     }
