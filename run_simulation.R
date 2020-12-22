@@ -182,7 +182,7 @@ seur <- FindVariableFeatures(seur, slot='counts', selection.method = "vst", nfea
 seur <- ScaleData(seur)
 seur <- RunPCA(seur,verbose = TRUE,features = rownames(seur))
 seur <- FindNeighbors(seur, dims = 1:6)
-seur <- FindClusters(seur, resolution = 1)
+seur <- FindClusters(seur, resolution = .6)
 seur <- RunUMAP(seur, dims = 1:5)
 DimPlot(seur, reduction='umap', group.by = 'label')
 

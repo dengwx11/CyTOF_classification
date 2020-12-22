@@ -15,9 +15,19 @@ library(ggplot2)
 # rst<-run(X,0,0,30,10,AS,A0,D,K,N, epsilon = 10^(-3))
 
 
-rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=F)
+rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=T,lambda2.on=T)
 rst<-run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
+rst.para.woas<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=T)
+rst.woas<-run(X,rst.para.woas$para$lambda1,rst.para.woas$para$lambda2,rst.para.woas$para$mu,rst.para.woas$para$eta,
+            AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
+rst.para.woa0<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=T,lambda2.on=F)
+rst.woa0<-run(X,rst.para.woa0$para$lambda1,rst.para.woa0$para$lambda2,rst.para.woa0$para$mu,rst.para.woa0$para$eta,
+            AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
+rst.para.woa0as<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=F)           
+rst.woa0as<-run(X,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$mu,rst.para.woa0as$para$eta,
+            AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
+
 plot(as.vector(W),as.vector(rst$W))
 cor(as.vector(W),as.vector(rst$W))
 #plot(as.vector(true.H),as.vector(rst$H))
@@ -37,12 +47,29 @@ cnt_max = 0
 for(i in 1:length(truth)){
     cnt_max = cnt_max + infer_max(truth[i], rst$H[,i])
 }  
+cnt_max_woas = 0
+for(i in 1:length(truth)){
+    cnt_max_woas = cnt_max_woas + infer_max(truth[i], rst.woas$H[,i])
+} 
+cnt_max_woa0 = 0
+for(i in 1:length(truth)){
+    cnt_max_woa0 = cnt_max_woa0 + infer_max(truth[i], rst.woa0$H[,i])
+} 
+cnt_max_woa0as = 0
+for(i in 1:length(truth)){
+    cnt_max_woa0as = cnt_max_woa0as + infer_max(truth[i], rst.woa0as$H[,i])
+} 
+
 print(cnt_max)
 print(cnt_max/N)
 
 
 ## prediction visualization
 celltype_pred <- apply(rst$H, 2, predict)
+celltype_pred_woas <- apply(rst.woas$H, 2, predict)
+celltype_pred_woa0 <- apply(rst.woa0$H, 2, predict)
+celltype_pred_woa0as <- apply(rst.woa0as$H, 2, predict)
+
 #celltype_pred <- as.character(celltype_pred)
 df.plot <- data.frame(x = X.umap$layout[,1],y=X.umap$layout[,2],
                             true_label = factor(label.output$label[1,]),
@@ -54,6 +81,10 @@ plot(X.umap$layout,col=label.output$label)
 plot(X.umap$layout,col=celltype_pred)
 
 seur$pred = celltype_pred
+seur$pred_woas = celltype_pred_woas
+seur$pred_woa0 = celltype_pred_woa0
+seur$pred_woa0as = celltype_pred_woa0as
+
 DimPlot(seur, reduction='umap', group.by = 'pred')
 
 adjustedRandIndex(celltype_pred, seur$seurat_clusters)
