@@ -1,7 +1,7 @@
 set.seed(2020)
 source('run_para.R')
 library(ggplot2)
-
+library(nnls)
 
 
 
@@ -27,6 +27,12 @@ rst.woa0<-run(X,rst.para.woa0$para$lambda1,rst.para.woa0$para$lambda2,rst.para.w
 rst.para.woa0as<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=F)           
 rst.woa0as<-run(X,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$mu,rst.para.woa0as$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
+
+## NNLS
+nnls_comp <- function(x, W) {
+    return(nnls(W, x)$x)
+}
+H_nnls <- apply(X,2,nnls_comp, W = W)
 
 plot(as.vector(W),as.vector(rst$W))
 cor(as.vector(W),as.vector(rst$W))
@@ -59,6 +65,10 @@ cnt_max_woa0as = 0
 for(i in 1:length(truth)){
     cnt_max_woa0as = cnt_max_woa0as + infer_max(truth[i], rst.woa0as$H[,i])
 } 
+cnt_max_nnls = 0
+for(i in 1:length(truth)){
+    cnt_max_nnls = cnt_max_nnls + infer_max(truth[i], H_nnls[,i])
+} 
 
 print(cnt_max)
 print(cnt_max/N)
@@ -69,6 +79,7 @@ celltype_pred <- apply(rst$H, 2, predict)
 celltype_pred_woas <- apply(rst.woas$H, 2, predict)
 celltype_pred_woa0 <- apply(rst.woa0$H, 2, predict)
 celltype_pred_woa0as <- apply(rst.woa0as$H, 2, predict)
+celltype_pred_nnls <- apply(H_nnls, 2, predict)
 
 #celltype_pred <- as.character(celltype_pred)
 df.plot <- data.frame(x = X.umap$layout[,1],y=X.umap$layout[,2],
@@ -84,6 +95,7 @@ seur$pred = celltype_pred
 seur$pred_woas = celltype_pred_woas
 seur$pred_woa0 = celltype_pred_woa0
 seur$pred_woa0as = celltype_pred_woa0as
+seur$pred_nnls = celltype_pred_nnls
 
 DimPlot(seur, reduction='umap', group.by = 'pred')
 
