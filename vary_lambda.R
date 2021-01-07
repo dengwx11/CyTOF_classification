@@ -73,7 +73,7 @@ for(lambda2 in seq(10, 50, 4)){
 #     pca.data$x <- seur@reductions$pca@cell.embeddings
 #     sil <- batch_sil(pca.data, celltype_pred)
 #     sil_vec <- c(sil_vec, sil)
-# }
+}
 
 dat <- data.frame(
     lambda2 = seq(10, 50, 4),
@@ -87,10 +87,13 @@ dat <- melt(dat, id.vars = 'lambda2', variable.name = 'Metrics')
 p <- ggplot(dat, aes(lambda2,value)) + 
 geom_point(aes(colour = Metrics), shape = 4) +
 labs(y = 'Annotation Metric', x = bquote(lambda[2])) + 
-geom_line(aes(color = Metrics)) +
-ylim(0.8, 1)
+geom_line(aes(color = Metrics, linetype = Metrics), size=2) +
+ylim(0.8, 1) +
+theme(axis.text=element_text(size=12),
+    axis.title=element_text(size=14,face="bold"),
+    plot.title = element_text(size=14))
 # geom_smooth(aes(x = lambda2, y = value, color = Metrics))
-ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_vary_lambda2_v1.png", p)
+ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_vary_lambda2_v2.png", p)
 
 # png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_vary_lambda2.png")
 # matplot(seq(0, 60, 5), dat, type = c("b"),pch=1,col = 1:5, xlab = 'lambda 2', ylab = 'Value', main = 'Varying lambda 2 (Senario 1)') #plot
@@ -158,10 +161,13 @@ dat_l1 <- melt(dat_l1, id.vars = 'lambda1', variable.name = 'Metrics')
 p_l1 <- ggplot(dat_l1, aes(lambda1,value)) + 
 geom_point(aes(colour = Metrics), shape = 4) +
 labs(y = 'Annotation Metric', x = bquote(lambda[1])) + 
-geom_line(aes(color = Metrics)) +
-ylim(0.8, 1)
+geom_line(aes(color = Metrics, linetype = Metrics), size=2) +
+ylim(0.8, 1) +
+theme(axis.text=element_text(size=12),
+    axis.title=element_text(size=14,face="bold"),
+    plot.title = element_text(size=14))
 # geom_smooth(aes(x = lambda2, y = value, color = Metrics))
-ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_vary_lambda1_v1.png", p_l1)
+ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_vary_lambda1_v2.png", p_l1)
 
 # png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_vary_lambda1.png")
 # matplot(seq(0, 5, 0.4), dat_l1, type = c("b"),pch=1,col = 1:5, xlab = 'lambda 1', ylab = 'Value', main = 'Varying lambda 1 (Senario 1)') #plot

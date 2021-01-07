@@ -82,8 +82,11 @@ pars$metric <- factor(pars$metric,levels = c('ASW', 'NMI', 'Cosine Similarity', 
 p <- ggplot(data = pars, aes(x = models, y = vars, fill = metric, width=.7)) +
   geom_bar(stat="identity", position=position_dodge()) +
   labs(y = 'Values', title = 'Senario 1') +
-  coord_flip()
-ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_benchmark_v2.png', p)
+  coord_flip() +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(size=14))
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_benchmark_v3.png', p)
 
 
 

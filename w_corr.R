@@ -1,6 +1,7 @@
 source("Simulation.R")
 source('run_para.R')
 library(ggplot2)
+library(scales)
 
 # loops <- 100
 # corr_vec <- c()
@@ -78,22 +79,31 @@ corr_vec<-run_eachW(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$
 
 p_corr <- ggplot(mapping = aes(x = 1:300, y = corr_vec[1:300])) +
 geom_line() +
-labs(x = 'Epoch', y = 'Correlation', title = 'Correlation between W and W^hat (Senario 1)')
-ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_w_corr_v1.png", p_corr)
+labs(x = 'Epoch', y = 'Correlation', title = 'Correlation between W and W^hat (Senario 1)') +
+theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(size=14))
+ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_w_corr_v2.png", p_corr)
 # png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_w_corr.png") 
 # plot(corr_vec, type = 'l', xlab = 'Simulation', ylab = 'Correlation', main = 'Correlation between W and W^hat (Senario 1)')
 # dev.off() 
 
 ## Loss
-png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_log_loss_v1.png")
-plot(rst$L.save[1:100], log="y", xlab = 'Epoch', ylab = 'Log loss', main = 'Loss (Senario 1 log scale)')
-dev.off() 
+# png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_log_loss_v1.png")
+# plot(rst$L.save[1:100], log="y", xlab = 'Epoch', ylab = 'Log loss', main = 'Loss (Senario 1 log scale)')
+# dev.off() 
 
 p <- ggplot(mapping = aes(y = rst$L.save[1:100], x = 1:100)) + 
 geom_point() +
-scale_y_continuous(trans='log2') +
-labs(title="Log Loss (Senario 1)", x ="Epoch", y = "Log loss")
-ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_log_loss_v2.png', p)
+geom_line() +
+scale_y_continuous(trans='log2', ,
+    breaks = trans_breaks("log2", function(x) 2^x),
+    labels = trans_format("log2", math_format(2^.x))) +
+labs(title="Log Loss (Senario 1)", x ="Epoch", y = "Log loss") +
+theme(axis.text=element_text(size=12),
+    axis.title=element_text(size=14,face="bold"),
+    plot.title = element_text(size=14))
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_log_loss_v3.png', p)
 
 png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_loss.png")
 plot(rst$L.save, xlab = 'Epoch', ylab = 'Loss', main = 'Loss (Senario 1)')
