@@ -2,6 +2,7 @@ source("Simulation.R")
 source('run_para.R')
 library(ggplot2)
 library(scales)
+library(cowplot)
 
 # loops <- 100
 # corr_vec <- c()
@@ -74,16 +75,19 @@ run_eachW <- function(X,lambda1,lambda2,mu, eta, AS, A0, D, K, N, epsilon = 10^(
     print(paste0("iteration = ",k))
     return(corr_vec)
 }
-corr_vec<-run_eachW(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
+corr_vec_5 <- run_eachW(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
-
-p_corr <- ggplot(mapping = aes(x = 1:300, y = corr_vec[1:300])) +
+saveRDS(corr_vec_5, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/corr_vec_5.rds')
+p_corr_lst <- lst()
+p_corr_lst[[5]] <- ggplot(mapping = aes(x = 1:300, y = corr_vec_5[1:300])) +
 geom_line() +
-labs(x = 'Epoch', y = 'Correlation', title = 'Correlation between W and W^hat (Senario 1)') +
+labs(x = 'Epoch', y = 'Correlation', title = 'Correlation between true W and estimated W (Senario 5)') +
 theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"),
         plot.title = element_text(size=14))
-ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_w_corr_v2.png", p_corr)
+
+pll_corr <- plot_grid(plotlist = p_corr_lst, ncol=5, align = 'h')
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/w_corr.png', pll_corr, width = 25, height = 5)
 # png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_w_corr.png") 
 # plot(corr_vec, type = 'l', xlab = 'Simulation', ylab = 'Correlation', main = 'Correlation between W and W^hat (Senario 1)')
 # dev.off() 
@@ -93,18 +97,22 @@ ggsave("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_w_corr_v2.png", p_corr)
 # plot(rst$L.save[1:100], log="y", xlab = 'Epoch', ylab = 'Log loss', main = 'Loss (Senario 1 log scale)')
 # dev.off() 
 
-p <- ggplot(mapping = aes(y = rst$L.save[1:100], x = 1:100)) + 
+loss_5 <- rst$L.save
+saveRDS(loss_5, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/loss_5.rds')
+plotlist <- list()
+plotlist[[5]] <- ggplot(mapping = aes(y = loss_5[1:100], x = 1:100)) + 
 geom_point() +
 geom_line() +
 scale_y_continuous(trans='log2', ,
     breaks = trans_breaks("log2", function(x) 2^x),
     labels = trans_format("log2", math_format(2^.x))) +
-labs(title="Log Loss (Senario 1)", x ="Epoch", y = "Log loss") +
+labs(title="Log loss function (Senario 5)", x ="Epoch", y = "Log loss") +
 theme(axis.text=element_text(size=12),
     axis.title=element_text(size=14,face="bold"),
     plot.title = element_text(size=14))
-ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_log_loss_v3.png', p)
+pll <- plot_grid(plotlist = plotlist, ncol=5, align = 'h')
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/log_loss.png', pll, width = 25, height = 5)
 
-png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_loss.png")
-plot(rst$L.save, xlab = 'Epoch', ylab = 'Loss', main = 'Loss (Senario 1)')
-dev.off() 
+# png("/Users/mac/Desktop/Yale/Hongyu/CyTOF/senario1_loss.png")
+# plot(rst$L.save, xlab = 'Epoch', ylab = 'Loss', main = 'Loss (Senario 1)')
+# dev.off() 
