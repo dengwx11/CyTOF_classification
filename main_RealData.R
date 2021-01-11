@@ -20,14 +20,13 @@ AS <- t(A) %*% S
 # X <- X[-7,truth_ct$cellID]
 X <- X[-7,]
 
-## BCR
-
-
+## BCR 5 celltypes
 S <- readRDS('write/matrix_S/hvgs_bcr_w_tomo32_s.rds')
 # S <-readRDS('write/matrix_S/hvgs_bcr_w_tomo35_s.rds')
 A0 <- read.csv('./write/matrix_A0/A0_BCR.csv')
 W <- readRDS('write/matrix_W/bcr_w.rds')
 A <- read.table('write/matrix_A/bcr_w_hvg_tomo_s_32_a.csv')
+X <- as.matrix(read.table('write/matrix_X/X_BCR.txt'))
 
 ## get louvain cluster
 rownames(X) <- c(1:D)
