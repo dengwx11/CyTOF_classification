@@ -97,7 +97,7 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
     print(paste0("ARI after step 7 is ",ARI))
     
     ## step 8 : select the best mu and lambda one more time if API is too low
-    print("step 8 : select the best mu and lambda one more time if API is too low")
+    print("step 8 : select the best mu and lambda one more time if ARI is too low")
     if(ARI<0.85){
         print("select the best eta one more time")
         rst =  getEta2(X, depth = depth, lambda_1.init,lambda_2.init,mu.init,eta.kkt,AS,A0,D,K,N,epsilon = epsilon,fixed_loop=fixed_loop)
