@@ -2,6 +2,7 @@
 
 set.seed(2020)
 source('run_para.R')
+suppressPackageStartupMessages(library(SummarizedExperiment))
 
 ## Input
 ## inhouse
@@ -26,7 +27,16 @@ S <- readRDS('write/matrix_S/hvgs_bcr_w_tomo32_s.rds')
 A0 <- read.csv('./write/matrix_A0/A0_BCR.csv')
 W <- readRDS('write/matrix_W/bcr_w.rds')
 A <- read.table('write/matrix_A/bcr_w_hvg_tomo_s_32_a.csv')
-X <- as.matrix(read.table('write/matrix_X/X_BCR.txt'))
+#X <- as.matrix(read.table('write/matrix_X/X_BCR.txt'))
+BCR <- readRDS('/gpfs/loomis/project/zhao/bz234//Data/BCR/BCR_celltype_annotated.rds')
+X <- assay(BCR[, colData(BCR)$marker_class == "type"])
+X <- t(X)
+cofactor <- 5
+X <- asinh(X / cofactor)
+colnames(X) <- c(1:ncol(X))
+metadata.BCR<-rowData(BCR)
+metadata.BCR <- data.frame(metadata.BCR@listData)
+rownames(metadata.BCR) <- colnames(X)
 
 ## get louvain cluster
 rownames(X) <- c(1:D)
