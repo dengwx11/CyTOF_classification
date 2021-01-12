@@ -12,9 +12,9 @@ pred_onehot_woa0 <- as.data.frame(t(one_hot(as.data.table(as.factor(celltype_pre
 ## For senario 1
 # celltype_pred_fact <- as.factor(celltype_pred_woa0as)
 # celltype_pred_fact <- factor(celltype_pred_fact, levels = c("1", "2", "3", "4", "5"))
-## For senario 3
-# celltype_pred_fact <- as.factor(celltype_pred_woa0as)
-# celltype_pred_fact <- factor(celltype_pred_fact, levels = c("1", "2", "3", "4", "5", "6", "7", "8"))
+## For senario 3, 3.5
+celltype_pred_fact <- as.factor(celltype_pred_woa0as)
+celltype_pred_fact <- factor(celltype_pred_fact, levels = c("1", "2", "3", "4", "5", "6", "7", "8"))
 pred_onehot_woa0as <- as.data.frame(t(one_hot(as.data.table(celltype_pred_fact))))
 pred_onehot_louvain <- as.data.frame(t(one_hot(as.data.table(seur$seurat_clusters))))
 pred_onehot_nnls <- as.data.frame(t(one_hot(as.data.table(as.factor(celltype_pred_nnls)))))
@@ -71,7 +71,7 @@ sil_nnls <- batch_sil(pca.data, celltype_pred_nnls)
 #     group = c(rep('Full', 5), rep('w/o AS', 5), rep('w/o A0', 5), rep('w/o A0 AS', 5), rep('Louvain', 5))
 # )
 
-pars_s1 <- data.frame(
+pars_s4 <- data.frame(
     models = c(rep('Full', 5), rep('w/o AS', 5), rep('w/o A0', 5), rep('w/o A0 AS', 5), rep('Louvain', 5), rep('NNLS', 5)),
     vars = c(accu, ari, cos_sim, nmi, sil, 
              accu_woas, ari_woas, cos_sim_woas, nmi_woas, sil_woas,
@@ -81,27 +81,35 @@ pars_s1 <- data.frame(
              accu_nnls, ari_nnls, cos_sim_nnls, nmi_nnls, sil_nnls),
     metric = rep(c('Accuracy', 'ARI', 'Cosine Similarity', 'NMI', 'ASW'), 6)
 )
-pars_s5$models <- factor(pars_s5$models,levels = c("NNLS", "Louvain", "w/o A0 AS", "w/o A0", "w/o AS", "Full"))
-pars_s5$metric <- factor(pars_s5$metric,levels = c('ASW', 'NMI', 'Cosine Similarity', 'ARI', 'Accuracy'))
+pars_s6$models <- factor(pars_s6$models,levels = c("NNLS", "Louvain", "w/o A0 AS", "w/o A0", "w/o AS", "Full"))
+pars_s6$metric <- factor(pars_s6$metric,levels = c('ASW', 'Cosine Similarity', 'NMI', 'Accuracy', 'ARI'))
 
 write.table(pars_s1, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s1.txt')
 write.table(pars_s2, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s2.txt')
 write.table(pars_s3, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s3.txt')
 write.table(pars_s4, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s4.txt')
 write.table(pars_s5, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s5.txt')
+write.table(pars_s6, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s6.txt')
 
+pars_s1 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s1.txt')
+pars_s2 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s2.txt')
+pars_s3 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s3.txt')
+pars_s5 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s5.txt')
+pars_s6 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s6.txt')
+
+pars_lst <- list(pars_s1, pars_s2, pars_s3, pars_s4, pars_s5, pars_s6)
 plotlist <- list()
-plotlist[[5]] <- ggplot(data = pars_s5, aes(x = models, y = vars, fill = metric, width=.7)) +
+for(i in 1:length(pars_lst)){
+  plotlist[[i]] <- ggplot(data = pars_lst[[i]], aes(x = models, y = vars, fill = metric, width=.7)) +
   geom_bar(stat="identity", position=position_dodge()) +
-  labs(y = 'Values', title = 'Senario 5') +
+  labs(y = 'Values', title = paste('Senario', i)) +
   coord_flip() +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"),
         plot.title = element_text(size=14))
-
-        
-pll <- plot_grid(plotlist = plotlist, ncol=5, align = 'h')
-ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/benchmark.png', pll, width = 25, height = 3)
+}
+pll <- plot_grid(plotlist = plotlist, ncol=3)
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/benchmark_v1.png', pll, width = 15, height = 6)
 
 Plo
 
