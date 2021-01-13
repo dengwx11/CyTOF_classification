@@ -33,7 +33,7 @@ p.neg1 = 0.1
 q.neg1 = 0.15
 mean_var_ratio = 3
 corr = 0.2
-prob_k = c(3,1,2,3,3,1,2,1)
+prob_k = sample(c(1,2,3),as.numeric(K), replace=TRUE)
 
 gamma <- simulate_gamma(iteration, as.numeric(K), D)
 A0 <- gamma$gamma
