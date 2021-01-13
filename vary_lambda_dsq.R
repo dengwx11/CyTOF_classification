@@ -206,11 +206,11 @@ seur <- FindClusters(seur)
 # seur <- RunUMAP(seur, dims = 1:5)
 
 if(which_lambda == 'lambda1') {
-    rst <- run(X,lambda,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
+    rst <- run(X,as.numeric(lambda),rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 }
 if(which_lambda == 'lambda2') {
-    rst <- run(X,rst.para$para$lambda1,lambda,rst.para$para$mu,rst.para$para$eta,
+    rst <- run(X,rst.para$para$lambda1,as.numeric(lambda),rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 }
 truth <- label.output$label
