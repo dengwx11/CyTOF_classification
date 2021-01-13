@@ -203,7 +203,7 @@ seur <- ScaleData(seur)
 seur <- RunPCA(seur,verbose = TRUE,features = rownames(seur))
 seur <- FindNeighbors(seur, dims = 1:6)
 seur <- FindClusters(seur)
-seur <- RunUMAP(seur, dims = 1:5)
+# seur <- RunUMAP(seur, dims = 1:5)
 
 if(which_lambda == 'lambda1') {
     rst <- run(X,lambda,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
