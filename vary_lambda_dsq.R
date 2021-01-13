@@ -7,8 +7,8 @@ senario <- as.character(args[3]) ## 1-6
 
 rst.para <- readRDS(paste0('/home/bz234/project/Results/CyTOF/simulation/rst_para/rst_para_', senario, '.rds'))
 
-source("Simulation.R")
-source('run_para.R')
+source("/home/bz234/github/CyTOF_classification/Simulation.R")
+source('/home/bz234/github/CyTOF_classification/run_para.R')
 library(mltools)
 library(data.table)
 library(lsa)
