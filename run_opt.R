@@ -20,7 +20,7 @@ run <- function(X,lambda1,lambda2,mu, eta, AS, A0, D, K, N, epsilon = 10^(-4),fi
         L.prev <- L.current
         L.current <- compute_L(X,W,H,lambda1,lambda2,mu,eta)
         #print(paste0("update W, L change ", L.current-L.prev))
-        H <- update_H(X, W, H, K, N, eta)
+        H <- update_H(X, W, H, K, N, D, eta)
         L.prev <- L.current
         L.current <- compute_L(X,W,H,lambda1,lambda2,mu,eta)
         #print(paste0("update H, L change ", L.current-L.prev))

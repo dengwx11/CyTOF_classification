@@ -64,7 +64,7 @@ update_W <- function(X, W, H, mu, AS, A0, D, K, lambda1, lambda2){
     return(W)
 }
 
-update_H <- function(X, W, H, K, N, eta){
+update_H <- function(X, W, H, K, N, D, eta){
 
     for(j in 1:N){
         x = matrix(X[,j],nrow=D,ncol=1)
