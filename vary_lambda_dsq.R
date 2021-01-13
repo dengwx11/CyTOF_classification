@@ -1,3 +1,5 @@
+## Run on server
+
 options(stringsAsFactors=F)
 args = commandArgs(trailingOnly=TRUE)
 
