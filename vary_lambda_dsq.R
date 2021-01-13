@@ -231,6 +231,6 @@ ari <- adjustedRandIndex(celltype_pred, truth)
 ## NMI
 nmi <- mean(mapply(NMI, truth_onehot, as.data.frame(pred_onehot)))
 
-results <- c(accu, cos_sim, ari, nim)
-names(results) <- c('accu', 'cos_sim', 'ari', 'nim')
+results <- c(accu, cos_sim, ari, nmi)
+names(results) <- c('accu', 'cos_sim', 'ari', 'nmi')
 write.table(results, paste0('/home/bz234/project/Results/CyTOF/simulation/benchmark/', which_lambda, '_', lambda, '.txt'))
