@@ -16,6 +16,7 @@ library(nnls)
 
 
 rst.para<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=T,lambda2.on=T)
+saveRDS(rst.para, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/rst_para/rst_para_6.rds')
 rst<-run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 rst.para.woas<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=T)
