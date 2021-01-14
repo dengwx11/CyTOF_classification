@@ -18,7 +18,7 @@ getICAInit <- function(X,K){
 }    
 
 ## eta: kkt
-getEta1 <- function(X,W.init,H.init){
+getEta1 <- function(X,K,W.init,H.init){
 
     one_k <- matrix(1, nrow = 1,ncol= K)
     one_N <- matrix(1, nrow = 1,ncol = N)

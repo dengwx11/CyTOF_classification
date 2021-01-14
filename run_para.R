@@ -23,7 +23,7 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
     plot(as.vector(W),as.vector(rst$W))
     W.init = rst$W
     H.init = rst$H
-    eta.kkt = getEta1(X,W.init,H.init)
+    eta.kkt = getEta1(X,K,W.init,H.init)
     print(eta.kkt)
 
     ## step 2 : get the initial lambdas by screening
