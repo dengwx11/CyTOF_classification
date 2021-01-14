@@ -85,9 +85,6 @@ H_est <- cbind(matrix(colnames(A0),ncol=1),H_est)
 get_truth <- function(true_ct){
     return(which(as.character(H_est[,1]) == true_ct))
 }
-infer_max <- function(truth,h){
-    return(1*(h[truth]==max(h)))
-}
 predict_realdata<-function(h){
     loc = which(h == max(h))
     return(colnames(A0)[loc])
