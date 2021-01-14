@@ -53,7 +53,12 @@ seur@assays$RNA@data = seur@assays$RNA@counts
 seur <- FindVariableFeatures(seur, slot='counts', selection.method = "vst", nfeatures = 10)
 seur <- ScaleData(seur)
 seur <- RunPCA(seur,verbose = TRUE,features = rownames(seur))
-seur <- FindNeighbors(seur, dims = 1:6)
+if(as.numeric(D) >= 6) {
+    dim_num <- 6
+} else {
+   dim_num <- as.numeric(D)
+}
+seur <- FindNeighbors(seur, dims = 1:dim_num)
 seur <- FindClusters(seur)
 
 rst.para<-runOptimalPara(X,AS,A0,as.numeric(D),K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=T,lambda2.on=T)
