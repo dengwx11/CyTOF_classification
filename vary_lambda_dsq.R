@@ -218,7 +218,10 @@ if(which_lambda == 'lambda2') {
 truth <- label.output$label
 celltype_pred <- apply(rst$H, 2, predict)
 truth_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(truth)))))
-pred_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(celltype_pred)))))
+celltype_pred_fact <- as.factor(celltype_pred)
+celltype_pred_fact <- factor(celltype_pred, levels = as.character(1:K))
+pred_onehot <- as.data.frame(t(one_hot(as.data.table(celltype_pred_fact))))
+
 cnt_max <- 0
 for(i in 1:length(truth)){
     cnt_max = cnt_max + infer_max(truth[i], rst$H[,i])

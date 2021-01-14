@@ -15,7 +15,7 @@ H_est_subsetting <- apply(H_est_subsetting,2,function(x) x/sum(x))
 
 cutoff.list <- c(1:100)/100                          
 df <- data.frame(cutoff = cutoff.list)
-df$acc <- 0                          
+df$acc <- df$cos <- df$nmi <- df$ari <- df$sil <- 0                         
                           
 for(j in c(1:length(cutoff.list))){
     cnt_max = 0
