@@ -64,3 +64,4 @@ seur <- RunUMAP(seur, dims = 1:5)
 DimPlot(seur, reduction='umap', group.by = 'label')
 
 DimPlot(seur, reduction='umap',group.by='seurat_clusters')
+
