@@ -97,7 +97,7 @@ saveRDS(dat_l2_5, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/dat_l2_5.rds')
 l2_pll <- list()
 l2_pll[[5]] <- ggplot(dat_l2_5, aes(lambda2,value)) + 
 geom_point(aes(colour = Metrics), shape = 4) +
-labs(y = 'Annotation Metric', x = bquote(lambda[2]), title = 'Senario 5') + 
+labs(y = 'Annotation Metric', x = bquote(lambda[2]), title = 'Scenario 5') + 
 geom_line(aes(color = Metrics, linetype = Metrics), size=2) +
 # ylim(0.8, 1) +
 theme(axis.text=element_text(size=12),
@@ -180,7 +180,7 @@ saveRDS(dat_l1_5, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/dat_l1_5.rds')
 l1_pll <- list()
 l1_pll[[5]] <- ggplot(dat_l1_5, aes(lambda1,value)) + 
 geom_point(aes(colour = Metrics), shape = 4) +
-labs(y = 'Annotation Metric', x = bquote(lambda[1]), title = 'Senario 5') + 
+labs(y = 'Annotation Metric', x = bquote(lambda[1]), title = 'Scenario 5') + 
 geom_line(aes(color = Metrics, linetype = Metrics), size=2) +
 # ylim(0.8, 1) +
 theme(axis.text=element_text(size=12),
