@@ -97,7 +97,7 @@ p_corr_lst <- list()
 for(i in 1:length(corr_vec_lst)) {
     p_corr_lst[[i]] <- ggplot(data = corr_vec_lst[[i]], mapping = aes(x = x, y = y)) +
     geom_line() +
-    labs(x = 'Epoch', y = 'Correlation', title = paste('Senario', i)) +
+    labs(x = 'Epoch', y = 'Correlation', title = paste('Scenario', i)) +
     theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"),
         plot.title = element_text(size=14))
@@ -136,7 +136,7 @@ for(i in 1:length(loss_lst)) {
     scale_y_continuous(trans='log2', ,
     breaks = trans_breaks("log2", function(x) 2^x),
     labels = trans_format("log2", math_format(2^.x))) +
-    labs(title=paste("Senario", i), x ="Epoch", y = "Log loss") +
+    labs(title=paste("Scenario", i), x ="Epoch", y = "Log loss") +
     theme(axis.text=element_text(size=12),
     axis.title=element_text(size=14,face="bold"),
     plot.title = element_text(size=14))

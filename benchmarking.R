@@ -94,6 +94,7 @@ write.table(pars_s6, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s6.txt')
 pars_s1 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s1.txt')
 pars_s2 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s2.txt')
 pars_s3 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s3.txt')
+pars_s4 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s4.txt')
 pars_s5 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s5.txt')
 pars_s6 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/bcmk_s6.txt')
 
@@ -102,7 +103,7 @@ plotlist <- list()
 for(i in 1:length(pars_lst)){
   plotlist[[i]] <- ggplot(data = pars_lst[[i]], aes(x = models, y = vars, fill = metric, width=.7)) +
   geom_bar(stat="identity", position=position_dodge()) +
-  labs(y = 'Values', title = paste('Senario', i)) +
+  labs(y = 'Values', title = paste('Scenario', i)) +
   coord_flip() +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"),
@@ -111,6 +112,6 @@ for(i in 1:length(pars_lst)){
 pll <- plot_grid(plotlist = plotlist, ncol=3)
 ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/benchmark_v1.png', pll, width = 15, height = 6)
 
-Plo
+
 
 
