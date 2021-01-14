@@ -53,10 +53,10 @@ seur@assays$RNA@data = seur@assays$RNA@counts
 seur <- FindVariableFeatures(seur, slot='counts', selection.method = "vst", nfeatures = 10)
 seur <- ScaleData(seur)
 seur <- RunPCA(seur,verbose = TRUE,features = rownames(seur))
-if(as.numeric(D) >= 6) {
+if(ncol(seur@reductions$pca@cell.embeddings) >= 6) {
     dim_num <- 6
 } else {
-   dim_num <- as.numeric(D)
+   dim_num <- ncol(seur@reductions$pca@cell.embeddings)
 }
 seur <- FindNeighbors(seur, dims = 1:dim_num)
 seur <- FindClusters(seur)
