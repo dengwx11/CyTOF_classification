@@ -39,7 +39,7 @@ accu_vec <- c()
 cos_sim_vec <- c()
 ari_vec <- c()
 nmi_vec <- c()
-iter <- 10
+iter <- 100
 
 for(j in 1:iter) {
     gamma <- simulate_gamma(iteration, K, D)
