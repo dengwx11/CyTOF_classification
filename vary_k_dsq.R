@@ -15,7 +15,7 @@ library(kBET)
 
 ## senario2
 set.seed(2020)
-D = 10 # surface markers number
+D = 25 # surface markers number
 N = round(2000 / 3 * as.numeric(K)) # ADT/CyTOF cell number ## N could be larger
 G = 100 # RNA gene number
 pi_ber1 = 0.55
