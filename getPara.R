@@ -39,7 +39,7 @@ getEta2 <- function(X, depth = 2, lambda_1,lambda_2,mu,eta.init,AS,A0,D,K,N,epsi
 
     celltype_pred <- apply(rst.prev$H, 2, predict)
     ARI.prev <- adjustedRandIndex(celltype_pred, seur$seurat_clusters)
-    Wcorr.prev = cor(as.vector(W),as.vector(rst.prev$W))
+#    Wcorr.prev = cor(as.vector(W),as.vector(rst.prev$W))
 
     mean.tmp <- mean(rst.prev$W)
     median.tmp <- median(rst.prev$W)
@@ -71,8 +71,8 @@ getEta2 <- function(X, depth = 2, lambda_1,lambda_2,mu,eta.init,AS,A0,D,K,N,epsi
         celltype_pred.right <- apply(rst.right$H, 2, predict)*2+10
         ARI.right <- adjustedRandIndex(celltype_pred.right, seur$seurat_clusters)
 
-        Wcorr.right = cor(as.vector(W),as.vector(rst.right$W))
-        Wcorr.left = cor(as.vector(W),as.vector(rst.left$W))
+#        Wcorr.right = cor(as.vector(W),as.vector(rst.right$W))
+#        Wcorr.left = cor(as.vector(W),as.vector(rst.left$W))
 
         mean.left <- mean(rst.left$W)
         median.left <- median(rst.left$W)
@@ -84,7 +84,7 @@ getEta2 <- function(X, depth = 2, lambda_1,lambda_2,mu,eta.init,AS,A0,D,K,N,epsi
         print(paste0("layer = ", layer))
         print(candidates)
         print(c(ARI.left,ARI.prev,ARI.right))
-        print(c(Wcorr.left,Wcorr.prev,Wcorr.right))
+ #       print(c(Wcorr.left,Wcorr.prev,Wcorr.right))
         print(c(diff.left,diff.prev,diff.right))
 
         # min.idx = which.min(c(diff.left,diff.prev,diff.right))
@@ -113,14 +113,14 @@ getEta2 <- function(X, depth = 2, lambda_1,lambda_2,mu,eta.init,AS,A0,D,K,N,epsi
             eta.prev.right = eta.prev
             eta.prev = eta.left
             ARI.prev = ARI.left
-            Wcorr.prev = Wcorr.left
+  #          Wcorr.prev = Wcorr.left
             diff.prev = diff.left
             ans$rst = rst.left
         }else if(max.idx == 3){
             eta.prev.left = eta.prev
             eta.prev = eta.right
             ARI.prev = ARI.right
-            Wcorr.prev = Wcorr.right
+ #           Wcorr.prev = Wcorr.right
             diff.prev = diff.right
             ans$rst = rst.right
         }
@@ -237,7 +237,7 @@ getLambda2 <- function(X,object = 1,depth = 3,lambda_init, theotherLambda, mu,et
     }
     celltype_pred <- apply(rst.prev$H, 2, predict)
     ARI.prev <- adjustedRandIndex(celltype_pred, seur$seurat_clusters)
-    Wcorr.prev = cor(as.vector(W),as.vector(rst.prev$W))
+ #   Wcorr.prev = cor(as.vector(W),as.vector(rst.prev$W))
 
     ans = list()
     
@@ -268,13 +268,13 @@ getLambda2 <- function(X,object = 1,depth = 3,lambda_init, theotherLambda, mu,et
         celltype_pred.right <- apply(rst.right$H, 2, predict)*2+10
         ARI.right <- adjustedRandIndex(celltype_pred.right, seur$seurat_clusters)
 
-        Wcorr.right = cor(as.vector(W),as.vector(rst.right$W))
-        Wcorr.left = cor(as.vector(W),as.vector(rst.left$W))
+  #      Wcorr.right = cor(as.vector(W),as.vector(rst.right$W))
+  #      Wcorr.left = cor(as.vector(W),as.vector(rst.left$W))
 
         print(paste0("layer = ", layer))
         print(candidates)
         print(c(ARI.left,ARI.prev,ARI.right))
-        print(c(Wcorr.left,Wcorr.prev,Wcorr.right))
+ #       print(c(Wcorr.left,Wcorr.prev,Wcorr.right))
 
         max.idx = which.max(c(ARI.left,ARI.prev,ARI.right))
         if(max.idx == 2){ 
@@ -286,13 +286,13 @@ getLambda2 <- function(X,object = 1,depth = 3,lambda_init, theotherLambda, mu,et
             lambda.prev.right = lambda.prev
             lambda.prev = lambda.left
             ARI.prev = ARI.left
-            Wcorr.prev = Wcorr.left
+  #          Wcorr.prev = Wcorr.left
             ans$rst = rst.left
         }else if(max.idx == 3){
             lambda.prev.left = lambda.prev
             lambda.prev = lambda.right
             ARI.prev = ARI.right
-            Wcorr.prev = Wcorr.right
+   #         Wcorr.prev = Wcorr.right
             ans$rst = rst.right
         }
 
@@ -365,7 +365,7 @@ getMu2 <- function(X, depth = 2, lambda_1,lambda_2,mu.init,eta,AS,A0,D,K,N,epsil
 
     celltype_pred <- apply(rst.prev$H, 2, predict)
     ARI.prev <- adjustedRandIndex(celltype_pred, seur$seurat_clusters)
-    Wcorr.prev = cor(as.vector(W),as.vector(rst.prev$W))
+ #   Wcorr.prev = cor(as.vector(W),as.vector(rst.prev$W))
 
     mean.tmp <- mean(rst.prev$W)
     median.tmp <- median(rst.prev$W)
@@ -399,8 +399,8 @@ getMu2 <- function(X, depth = 2, lambda_1,lambda_2,mu.init,eta,AS,A0,D,K,N,epsil
         celltype_pred.right <- apply(rst.right$H, 2, predict)*2+10
         ARI.right <- adjustedRandIndex(celltype_pred.right, seur$seurat_clusters)
 
-        Wcorr.right = cor(as.vector(W),as.vector(rst.right$W))
-        Wcorr.left = cor(as.vector(W),as.vector(rst.left$W))
+  #      Wcorr.right = cor(as.vector(W),as.vector(rst.right$W))
+  #      Wcorr.left = cor(as.vector(W),as.vector(rst.left$W))
 
         mean.left <- mean(rst.left$W)
         median.left <- median(rst.left$W)
@@ -412,7 +412,7 @@ getMu2 <- function(X, depth = 2, lambda_1,lambda_2,mu.init,eta,AS,A0,D,K,N,epsil
         print(paste0("layer = ", layer))
         print(candidates)
         print(c(ARI.left,ARI.prev,ARI.right))
-        print(c(Wcorr.left,Wcorr.prev,Wcorr.right))
+  #      print(c(Wcorr.left,Wcorr.prev,Wcorr.right))
         print(c(diff.left,diff.prev,diff.right))
 
         # min.idx = which.min(c(diff.left,diff.prev,diff.right))
@@ -441,14 +441,14 @@ getMu2 <- function(X, depth = 2, lambda_1,lambda_2,mu.init,eta,AS,A0,D,K,N,epsil
             mu.prev.right = mu.prev
             mu.prev = mu.left
             ARI.prev = ARI.left
-            Wcorr.prev = Wcorr.left
+   #         Wcorr.prev = Wcorr.left
             diff.prev = diff.left
             ans$rst = rst.left
         }else if(max.idx == 3){
             mu.prev.left = mu.prev
             mu.prev = mu.right
             ARI.prev = ARI.right
-            Wcorr.prev = Wcorr.right
+   #         Wcorr.prev = Wcorr.right
             diff.prev = diff.right
             ans$rst = rst.right
         }

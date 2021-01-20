@@ -20,7 +20,7 @@ runOptimalPara <- function(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=1000,depth=3
     }
 
     rst = run(X,lambda_1.init,lambda_2.init,50,50,AS,A0,D,K,N, epsilon = epsilon,fixed_loop=fixed_loop)
-    plot(as.vector(W),as.vector(rst$W))
+#    plot(as.vector(W),as.vector(rst$W))
     W.init = rst$W
     H.init = rst$H
     eta.kkt = getEta1(X,K,W.init,H.init)
