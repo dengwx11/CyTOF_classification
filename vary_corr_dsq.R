@@ -33,7 +33,7 @@ q.0 = 0.3
 p.neg1 = 0.1
 q.neg1 = 0.15
 mean_var_ratio = 5
-prob_k = c(3,1,2,3,3,1,2,1)
+prob_k = sample(c(1,2,3),K, replace=TRUE)
 
 accu_vec <- c()
 cos_sim_vec <- c()
@@ -69,7 +69,9 @@ for(j in 1:iter) {
     truth <- label.output$label
     celltype_pred <- apply(rst$H, 2, predict)
     truth_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(truth)))))
-    pred_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(celltype_pred)))))
+    celltype_pred_fact <- as.factor(celltype_pred)
+    celltype_pred_fact <- factor(celltype_pred, levels = as.character(1:K))
+    pred_onehot <- as.data.frame(t(one_hot(as.data.table(celltype_pred_fact))))
     cnt_max <- 0
     for(i in 1:length(truth)){
         cnt_max = cnt_max + infer_max(truth[i], rst$H[,i])
