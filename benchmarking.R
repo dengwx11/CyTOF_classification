@@ -5,6 +5,7 @@ library(aricode)
 library(kBET)
 library(cowplot)
 library(ggplot2)
+library(mclust)
 
 truth_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(truth)))))
 pred_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(celltype_pred)))))
