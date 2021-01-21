@@ -14,7 +14,7 @@ library(aricode)
 library(kBET)
 
 ## senario2
-set.seed(2020)
+set.seed(2021)
 K = 8 # cell types number ## K could be larger
 D = 10 # surface markers number
 N = 2000 # ADT/CyTOF cell number ## N could be larger
