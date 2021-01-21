@@ -16,6 +16,7 @@ library(lsa)
 library(aricode)
 library(kBET)
 library(cowplot)
+library(ggplot2)
 
 celltype_pred <- apply(rst$H, 2, predict)
 H_est_subsetting <- data.frame(rst$H)
@@ -74,15 +75,20 @@ for(j in c(1:length(cutoff.list))){
 
 subset_6 <- melt(df, id.vars = 'cutoff', variable.name = 'Metrics')
 write.table(subset_6, '/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset_6.txt')
-# subset_1 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset_1.txt')
-ggplot(subset_6, aes(cutoff,value)) + 
-geom_point(aes(colour = Metrics), shape = 4) +
-labs(y = 'Annotation Metric', x = 'Cutoff', title = 'Scenario 1') + 
-geom_line(aes(color = Metrics, linetype = Metrics), size=2) +
-# ylim(0.8, 1) +
-theme(axis.text=element_text(size=12),
-    axis.title=element_text(size=14,face="bold"),
-    plot.title = element_text(size=14))
+
+subset_1 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset/subset_1.txt')
+subset_2 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset/subset_2.txt')
+subset_3 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset/subset_3.txt')
+subset_4 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset/subset_4.txt')
+subset_5 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset/subset_5.txt')
+subset_6 <- read.table('/Users/mac/Desktop/Yale/Hongyu/CyTOF/subset/subset_6.txt')
+
+subset_1 <- subset_1[subset_1$cutoff != 1,]
+subset_2 <- subset_2[subset_2$cutoff != 1,]
+subset_3 <- subset_3[subset_3$cutoff != 1,]
+subset_4 <- subset_4[subset_4$cutoff != 1,]
+subset_5 <- subset_5[subset_5$cutoff != 1,]
+subset_6 <- subset_6[subset_6$cutoff != 1,]
 
 pars_lst <- list(subset_1, subset_2, subset_3, subset_4, subset_5, subset_6)
 plotlist <- list()
@@ -96,5 +102,5 @@ for(i in 1:length(pars_lst)){
     plot.title = element_text(size=14))
 }
 pll <- plot_grid(plotlist = plotlist, ncol=3)
-ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/subset_simu.png', pll, width = 15, height = 8)
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/subset_simu_v1.png', pll, width = 15, height = 8)
     
