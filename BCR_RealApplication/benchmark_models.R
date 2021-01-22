@@ -129,7 +129,7 @@ H_est_woa0 <- data.frame(rst.woa0$H)
 H_est_woa0 <- cbind(matrix(colnames(A0),ncol=1),H_est_woa0)
 H_est_woa0as <- data.frame(rst.woa0as$H)
 H_est_woa0as <- cbind(matrix(colnames(A0),ncol=1),H_est_woa0as)
-#print("1")
+print("1")
 if(ct.cnt == 5){
     H_est[,1] <- c("naïve B cells","CD4 T-cells","CD8 T-cells","monocytes","NK cells")
     H_est_woas[,1] <- c("naïve B cells","CD4 T-cells","CD8 T-cells","monocytes","NK cells")
@@ -147,12 +147,14 @@ if(ct.cnt == 5){
     H_est_woa0[,1] <- c("memory B cells","naïve B cells","CD4 T-cells","CD8 T-cells","DC","monocytes","NK cells")
     H_est_woa0as[,1] <- c("memory B cells","naïve B cells","CD4 T-cells","CD8 T-cells","DC","monocytes","NK cells")
 }
-#print("2")
+print("2")
 celltype_pred <- apply(rst$H, 2, predict_realdata)
 celltype_pred_woas <- apply(rst.woas$H, 2, predict_realdata)
 celltype_pred_woa0 <- apply(rst.woa0$H, 2, predict_realdata)
 celltype_pred_woa0as <- apply(rst.woa0as$H, 2, predict_realdata)
-#print("3")
+print("3")
+print(celltype_pred)
+print(celltype_pred_woas)
 
 seur$pred = celltype_pred
 seur$pred_woas = celltype_pred_woas
