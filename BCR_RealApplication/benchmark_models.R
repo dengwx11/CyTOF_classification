@@ -110,14 +110,14 @@ print(c(D,K,N))
 rst.para<-runOptimalPara(X.sample,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=3,lambda1.on=T,lambda2.on=T)
 rst<-run(X.sample,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.para$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
-rst.para.woas<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=T)
-rst.woas<-run(X,rst.para.woas$para$lambda1,rst.para.woas$para$lambda2,rst.para.woas$para$mu,rst.para.woas$para$eta,
+rst.para.woas<-runOptimalPara(X.sample,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=3,lambda1.on=F,lambda2.on=T)
+rst.woas<-run(X.sample,rst.para.woas$para$lambda1,rst.para.woas$para$lambda2,rst.para.woas$para$mu,rst.para.woas$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
-rst.para.woa0<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=T,lambda2.on=F)
-rst.woa0<-run(X,rst.para.woa0$para$lambda1,rst.para.woa0$para$lambda2,rst.para.woa0$para$mu,rst.para.woa0$para$eta,
+rst.para.woa0<-runOptimalPara(X.sample,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=3,lambda1.on=T,lambda2.on=F)
+rst.woa0<-run(X.sample,rst.para.woa0$para$lambda1,rst.para.woa0$para$lambda2,rst.para.woa0$para$mu,rst.para.woa0$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
-rst.para.woa0as<-runOptimalPara(X,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=2,lambda1.on=F,lambda2.on=F)           
-rst.woa0as<-run(X,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$mu,rst.para.woa0as$para$eta,
+rst.para.woa0as<-runOptimalPara(X.sample,AS,A0,D,K,N, epsilon = 0.01,fixed_loop=50,depth=3,lambda1.on=F,lambda2.on=F)           
+rst.woa0as<-run(X.sample,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$lambda1,rst.para.woa0as$para$mu,rst.para.woa0as$para$eta,
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 
 truth_ct = seur$label
