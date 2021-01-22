@@ -11,6 +11,6 @@ predict<-function(h){
     return(which(h == max(h))[1])
 }
 predict_realdata<-function(h){
-    loc = which(h == max(h))
+    loc = which(h == max(h))[1]
     return(H_est[,1][loc])
 }
