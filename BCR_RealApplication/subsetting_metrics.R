@@ -48,8 +48,8 @@ for(j in c(1:length(cutoff.list))){
     } else {
        df$acc[j]<-cnt_max/N_subsetting
     } 
-    print(idx.subsetting)
-    
+    print(length(idx.subsetting))
+
     df$N[j] <- N_subsetting
     
     truth_sub <- truth[idx.subsetting]
@@ -66,6 +66,7 @@ for(j in c(1:length(cutoff.list))){
     df$ari[j] <- ari
     
     ## Cosine similarity
+    print(truth_fact_sub)
     truth_onehot_sub <- as.data.frame(t(one_hot(as.data.table(truth_fact_sub))))
     cos_sim <- mean(mapply(cosine, truth_onehot_sub, as.data.frame(H_est_subsetting[,idx.subsetting])))
     df$cos[j] <- cos_sim
