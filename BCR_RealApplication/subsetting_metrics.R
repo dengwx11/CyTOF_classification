@@ -74,10 +74,14 @@ for(j in c(1:length(cutoff.list))){
         df$nmi[j] <- nmi
 
         ## Silhouette
-        pca.data <- list()
-        pca.data$x <- seur@reductions$pca@cell.embeddings[idx.subsetting,]
-        sil <- batch_sil(pca.data, as.numeric(as.factor(celltype_pred_sub)))
-        df$sil[j] <- sil
+        if(length(unique(celltype_pred_sub) == 1)) {
+            df$sil[j] <- 0
+        } else{
+            pca.data <- list()
+            pca.data$x <- seur@reductions$pca@cell.embeddings[idx.subsetting,]
+            sil <- batch_sil(pca.data, as.numeric(as.factor(celltype_pred_sub)))
+            df$sil[j] <- sil
+        }   
     }
 }
 write.table(df, paste0('/home/bz234/project/Results/CyTOF/BCR_Cytof/subset_metrics/', sample, '.txt'))
