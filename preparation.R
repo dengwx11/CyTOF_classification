@@ -10,7 +10,7 @@ infer_max <- function(truth,h){
 predict<-function(h){
     return(which(h == max(h))[1])
 }
-predict_realdata<-function(h){
+predict_realdata<-function(h, H){
     loc = which(h == max(h))[1]
-    return(h[,1][loc])
+    return(H[,1][loc])
 }
