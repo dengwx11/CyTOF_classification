@@ -54,19 +54,19 @@ for(j in c(1:length(cutoff.list))){
     
     truth_sub <- truth[idx.subsetting]
     truth_fact_sub <- as.factor(truth_sub)
-    truth_fact_sub <- factor(truth_fact_sub, levels = as.character(1:nrow(H_est_subsetting)))
+    # truth_fact_sub <- factor(truth_fact_sub, levels = as.character(1:nrow(H_est_subsetting)))
 
     
     celltype_pred_sub <- seur$pred[idx.subsetting]
     celltype_pred_fact_sub <- as.factor(celltype_pred_sub)
-    celltype_pred_fact_sub <- factor(celltype_pred_fact_sub, levels = as.character(1:nrow(H_est_subsetting)))
+    celltype_pred_fact_sub <- factor(celltype_pred_fact_sub, levels = levels(truth_fact_sub))
 
     ## ARI
     ari <- adjustedRandIndex(celltype_pred_sub, truth_sub)
     df$ari[j] <- ari
     
     ## Cosine similarity
-    print(truth_fact_sub)
+    print(head(truth_fact_sub))
     truth_onehot_sub <- as.data.frame(t(one_hot(as.data.table(truth_fact_sub))))
     cos_sim <- mean(mapply(cosine, truth_onehot_sub, as.data.frame(H_est_subsetting[,idx.subsetting])))
     df$cos[j] <- cos_sim
