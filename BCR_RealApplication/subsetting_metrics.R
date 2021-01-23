@@ -48,6 +48,8 @@ for(j in c(1:length(cutoff.list))){
     } else {
        df$acc[j]<-cnt_max/N_subsetting
     } 
+    print(idx.subsetting)
+    
     df$N[j] <- N_subsetting
     
     truth_sub <- truth[idx.subsetting]
