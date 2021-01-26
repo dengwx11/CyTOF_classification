@@ -22,8 +22,11 @@ rst <- readRDS(paste0('/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltyp
 truth <- seur$label
 
 celltype_pred <- seur$pred
+rownames(rst$H) <- rst$H[,1]
 H_est_subsetting <- data.frame(rst$H[,-1])
 H_est_subsetting <- apply(H_est_subsetting,2,function(x) x/sum(x))
+celltypes <- c('CD4 T-cells', 'CD8 T-cells', 'monocytes', 'naïve B cells', 'NK cells')
+H_est_subsetting <- H_est_subsetting[celltypes,]
 
 cutoff.list <- c(1:100)/100                          
 df <- data.frame(cutoff = cutoff.list)
@@ -52,7 +55,6 @@ for(j in c(1:length(cutoff.list))){
     
         truth_sub <- truth[idx.subsetting]
         truth_fact_sub <- as.factor(truth_sub)
-        # truth_fact_sub <- factor(truth_fact_sub, levels = as.character(1:nrow(H_est_subsetting)))
 
         
         celltype_pred_sub <- seur$pred[idx.subsetting]
