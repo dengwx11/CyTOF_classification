@@ -4,43 +4,117 @@ library(ggplot2)
 library(cowplot)
 
 ## 5 cell types
-ct_prop_pred5 <- readRDS("/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/rst_summary/ct_prop_pred_BCR.rds")
-ct_prop_label5 <- readRDS("/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/rst_summary/ct_prop_label_BCR.rds")
-ct_cnt_ref_pred5 <- readRDS("/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/rst_summary/ct_prop_label_ref.rds")
-ct_cnt_ref_label5 <- readRDS("/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/rst_summary/ct_prop_pred_ref.rds")
+seur_files <- list.files(path = '/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltype', pattern='*seur*', full=T, ignore.case = TRUE)
+rst_files <- list.files(path = '/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltype', pattern='*rst*', full=T, ignore.case = TRUE)
+BCR_XL_files <- list.files(path = '/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltype', pattern=glob2rx('*BCR-XL.rds'), full=T, ignore.case = TRUE)
+Reference_files <- list.files(path = '/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltype', pattern=glob2rx('*Reference.rds'), full=T, ignore.case = TRUE)
+rst_BCR_files <- intersect(rst_files,BCR_XL_files)
+rst_Reference_files <- intersect(rst_files,Reference_files)
+seur_BCR_files <- intersect(seur_files,BCR_XL_files)
+seur_Reference_files <- intersect(seur_files,Reference_files)
 
-ct_cnt_ref_pred5 <- ct_cnt_ref_pred5[-1,]
-ct_cnt_ref_label5 <- ct_cnt_ref_label5[-1,]
-ct_prop_ref_pred5 <- apply(ct_cnt_ref_pred5,1,function(x) x/sum(x))
-ct_prop_ref_label5 <- apply(ct_cnt_ref_label5,1,function(x) x/sum(x))
- 
-ct_prop_pred5 <- ct_prop_pred5[,-8]
-ct_prop_label5 <- ct_prop_label5[,-8] 
-                            
-ct_prop_pred5 <- data.frame(ct_prop_pred5)
-ct_prop_label5 <- data.frame(ct_prop_label5) 
-ct_prop_ref_pred5 <- data.frame(ct_prop_ref_pred5)
-ct_prop_ref_label5 <- data.frame(ct_prop_ref_label5)  
+# BCR
+ct_cnt_pred <- data.frame(matrix(0,5,nrow=1,ncol=5))
+ct_cnt_label <- data.frame(matrix(0,5,nrow=1,ncol=5))
+colnames(ct_cnt_pred) <- colnames(ct_cnt_label) <- c('CD4 T-cells','CD8 T-cells','monocytes', 'naïve B cells', 
+                                                     'NK cells')
 
-ct_prop_pred5$celltype <- rownames(ct_prop_pred5)
-ct_prop_label5$celltype <- rownames(ct_prop_label5)
-ct_prop_ref_pred5$celltype <- rownames(ct_prop_ref_pred5)
-ct_prop_ref_label5$celltype <- rownames(ct_prop_ref_label5)
+for(sample.idx in 1:length(rst_BCR_files)){
+    rst <- readRDS(rst_BCR_files[sample.idx])
+    seur <- readRDS(seur_BCR_files[sample.idx])
+    truth <- seur$label
+    
+    ## subsetting
+    H_est_subsetting <- rst$H[,-1]
+    H_est_subsetting <- apply(H_est_subsetting,2,function(x) x/sum(x))
+    
+    idx.subsetting = c()
+    for(i in 1:length(seur$label)){
+        if(max(H_est_subsetting[,i])>0.5){
+            idx.subsetting = append(idx.subsetting,i)
+        }
 
-ct_prop_pred_long5 <-  melt(ct_prop_pred5, id.vars = 'celltype', variable.name = 'patient.ID')
-ct_prop_label_long5 <-  melt(ct_prop_label5, id.vars = 'celltype', variable.name = 'patient.ID')   
-ct_prop_pred_ref_long5 <-  melt(ct_prop_ref_pred5, id.vars = 'celltype', variable.name = 'patient.ID')
-ct_prop_label_ref_long5 <-  melt(ct_prop_ref_label5, id.vars = 'celltype', variable.name = 'patient.ID')
-ct_prop_pred_long5$group = "prediction-BCR"
-ct_prop_label_long5$group = "true-BCR"
-ct_prop_pred_ref_long5$group = "prediction-Ref"
-ct_prop_label_ref_long5$group = "true-Ref"
-ct_prop_long5 <- rbind(ct_prop_pred_long5,ct_prop_label_long5)    
-ct_prop_ref_long5 <- rbind(ct_prop_pred_ref_long5,ct_prop_label_ref_long5)  
+    }  
+    # cell type proportions
+    seur_sub <- subset(seur, cells=Cells(seur)[idx.subsetting])
+    ct_cnt_pred <- rbind(ct_cnt_pred,table(seur_sub$pred)[c('CD4 T-cells','CD8 T-cells','monocytes', 'naïve B cells', 
+                                                     'NK cells')])
+    ct_cnt_label <- rbind(ct_cnt_label,table(seur_sub$label)[c('CD4 T-cells','CD8 T-cells','monocytes', 'naïve B cells', 
+                                                     'NK cells')])                                                       
+}
 
-ct_prop_long_all5 <- rbind(ct_prop_long5,ct_prop_ref_long5)
+# Reference
+ct_cnt_ref_pred <- data.frame(matrix(0,5,nrow=1,ncol=5))
+ct_cnt_ref_label <- data.frame(matrix(0,5,nrow=1,ncol=5))
+colnames(ct_cnt_ref_pred) <- colnames(ct_cnt_ref_label) <- c('CD4 T-cells','CD8 T-cells','monocytes', 'naïve B cells', 
+                                                     'NK cells')
+
+for(sample.idx in 1:length(rst_BCR_files)){
+    rst <- readRDS(rst_Reference_files[sample.idx])
+    seur <- readRDS(seur_Reference_files[sample.idx])
+    truth <- seur$label
+    
+    ## subsetting
+    H_est_subsetting <- rst$H[,-1]
+    H_est_subsetting <- apply(H_est_subsetting,2,function(x) x/sum(x))
+    
+    idx.subsetting = c()
+    for(i in 1:length(seur$label)){
+        if(max(H_est_subsetting[,i])>0.5){
+            idx.subsetting = append(idx.subsetting,i)
+        }
+
+    }  
+    # cell type proportions
+    if(is.null(idx.subsetting)) {
+        ct_cnt_ref_pred <- rbind(ct_cnt_ref_pred, NA)
+    } else{
+        seur_sub <- subset(seur, cells=Cells(seur)[idx.subsetting])
+    ct_cnt_ref_pred <- rbind(ct_cnt_ref_pred,table(seur_sub$pred)[c('CD4 T-cells','CD8 T-cells','monocytes', 
+                                                                    'naïve B cells', 'NK cells')])
+    }
+    ct_cnt_ref_label <- rbind(ct_cnt_ref_label,table(seur_sub$label)[c('CD4 T-cells','CD8 T-cells','monocytes', 
+                                                                       'naïve B cells', 'NK cells')])                          
+}
+
+ct_cnt_pred <- ct_cnt_pred[-1,]
+ct_cnt_label <- ct_cnt_label[-1,]
+ct_cnt_ref_pred <- ct_cnt_ref_pred[-1,]
+ct_cnt_ref_label <- ct_cnt_ref_label[-1,]
+
+ct_prop_pred <- apply(ct_cnt_pred,1,function(x) x/sum(x))
+ct_prop_label <- apply(ct_cnt_label,1,function(x) x/sum(x))
+ct_prop_ref_pred <- apply(ct_cnt_ref_pred,1,function(x) x/sum(x))
+ct_prop_ref_label <- apply(ct_cnt_ref_label,1,function(x) x/sum(x))
+                           
+ct_prop_pred <- ct_prop_pred[,-8]
+ct_prop_label <- ct_prop_label[,-8]  
+                           
+ct_prop_pred <- data.frame(ct_prop_pred)
+ct_prop_label <- data.frame(ct_prop_label)  
+ct_prop_ref_pred <- data.frame(ct_prop_ref_pred)
+ct_prop_ref_label <- data.frame(ct_prop_ref_label)  
+
+
+ct_prop_pred$celltype <- rownames(ct_prop_pred)
+ct_prop_label$celltype <- rownames(ct_prop_label)
+ct_prop_ref_pred$celltype <- rownames(ct_prop_ref_pred)
+ct_prop_ref_label$celltype <- rownames(ct_prop_ref_label)
+                           
+ct_prop_pred_long <-  melt(ct_prop_pred, id.vars = 'celltype', variable.name = 'patient.ID')
+ct_prop_label_long <-  melt(ct_prop_label, id.vars = 'celltype', variable.name = 'patient.ID')   
+ct_prop_pred_ref_long <-  melt(ct_prop_ref_pred, id.vars = 'celltype', variable.name = 'patient.ID')
+ct_prop_label_ref_long <-  melt(ct_prop_ref_label, id.vars = 'celltype', variable.name = 'patient.ID')
+ct_prop_pred_long$group = "prediction-BCR"
+ct_prop_label_long$group = "true-BCR"
+ct_prop_pred_ref_long$group = "prediction-Ref"
+ct_prop_label_ref_long$group = "true-Ref"
+ct_prop_long <- rbind(ct_prop_pred_long,ct_prop_label_long)    
+ct_prop_ref_long <- rbind(ct_prop_pred_ref_long,ct_prop_label_ref_long)    
+
+ct_prop_long_all <- rbind(ct_prop_long,ct_prop_ref_long)
 options(repr.plot.width = 10, repr.plot.height = 7, repr.plot.res = 300)
-ggplot(ct_prop_long_all5, aes(x=celltype, y=value,fill=group)) + 
+ggplot(ct_prop_long_all, aes(x=celltype, y=value,fill=group)) + 
     geom_boxplot()+
     xlab('Cell type') +
     ylab('Proportion') +
@@ -48,7 +122,7 @@ ggplot(ct_prop_long_all5, aes(x=celltype, y=value,fill=group)) +
     theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"),
         plot.title = element_text(size=14)) 
-
+                           
 ## 6 cell types
 seur_files <- list.files(path = '/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/6celltype', pattern='*seur*', full=T, ignore.case = TRUE)
 rst_files <- list.files(path = '/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/6celltype', pattern='*rst*', full=T, ignore.case = TRUE)
