@@ -1,4 +1,4 @@
-source("Simulation.R")
+source("Simulation/Simulation.R")
 set.seed(2020)
 library(umap)
 

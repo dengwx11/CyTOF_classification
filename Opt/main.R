@@ -1,5 +1,5 @@
 set.seed(2020)
-source('./run_para.R')
+source('Opt/run_para.R')
 library(ggplot2)
 library(nnls)
 

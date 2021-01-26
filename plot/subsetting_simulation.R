@@ -9,7 +9,7 @@ rst <- readRDS(rst.directory)
 truth <- readRDS(truth.directory)
 seur <- readRDS(seur.directory)
 
-source("preparation.R")
+source("Opt/preparation.R")
 library(mltools)
 library(data.table)
 library(lsa)

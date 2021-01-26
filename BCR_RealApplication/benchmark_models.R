@@ -6,8 +6,8 @@ ct.cnt <- as.integer(args[2])
 print(c(sample,ct.cnt))
 
 set.seed(2020)
-source('run_para.R')
-source('preparation.R')
+source('Opt/run_para.R')
+source('Opt/preparation.R')
 suppressPackageStartupMessages(library(SummarizedExperiment))
 library(Seurat)
 

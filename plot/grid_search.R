@@ -1,5 +1,5 @@
 set.seed(2020)
-source('run_opt.R')
+source('Opt/run_opt.R')
 
 ## full penalization
 lambda1_vec <- lambda2_vec <- seq(0.3, 3, 0.1)

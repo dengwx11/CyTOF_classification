@@ -15,7 +15,7 @@ options(repr.plot.width=14, repr.plot.height=10)
 library(viridis)
 library(mclust)
 library("hrbrthemes")
-source('preparation.R')
+source('Opt/preparation.R')
 
 seur <- readRDS(paste0('/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltype/seur_', sample, '.rds'))
 rst <- readRDS(paste0('/gpfs/ysm/pi/zhao-data/wd262/new_cytof/write/BCR/5celltype/rst_', sample, '.rds'))

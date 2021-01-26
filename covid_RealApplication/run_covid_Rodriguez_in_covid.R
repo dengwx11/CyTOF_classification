@@ -7,8 +7,8 @@ sample.id <- as.character(args[2])
 
 set.seed(2021)
 setwd('/gpfs/ysm/pi/zhao-data/wd262/new_cytof/CyTOF_classification')
-source('run_para.R')
-source('preparation.R')
+source('Opt/run_para.R')
+source('Opt/preparation.R')
 library(Seurat)
 
 # load input
