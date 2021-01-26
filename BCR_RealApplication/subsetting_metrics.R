@@ -76,7 +76,7 @@ for(j in c(1:length(cutoff.list))){
         df$nmi[j] <- nmi
 
         ## Silhouette
-        if(length(unique(celltype_pred_sub) == 1)) {
+        if(length(unique(celltype_pred_sub)) == 1) {
             df$sil[j] <- 0
         } else{
             pca.data <- list()
