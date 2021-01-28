@@ -4,19 +4,19 @@ library(cowplot)
 
 corr <- seq(.1, 1, 0.005)
 mean_var_ratio <- seq(1, 10, 0.05)
-K <- seq(3, 15)
+K <- seq(3, 40
 # D <- seq(5, 50)
 
 ### Write dsq file
 writefunc <- c()
 for(i in corr) {
-    writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla vary_corr_dsq.R', i))
+    writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla ./plot/vary_corr_dsq.R', i))
 } 
 for(i in mean_var_ratio) {
-    writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla vary_mvr_dsq.R', i))
+    writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla ./plot/vary_mvr_dsq.R', i))
 } 
 for(i in K) {
-    writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla vary_k_dsq.R', i))
+    writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla ./plot/vary_k_dsq.R', i))
 } 
 # for(i in D) {
 #     writefunc <- rbind(writefunc, paste('module load miniconda; source activate r_env; cd /home/bz234/github/CyTOF_classification/; Rscript --vanilla vary_d_dsq.R', i))
