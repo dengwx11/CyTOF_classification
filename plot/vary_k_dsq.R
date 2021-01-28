@@ -14,7 +14,7 @@ library(aricode)
 library(kBET)
 
 ## senario2
-set.seed(2020)
+set.seed(2021)
 D = 25 # surface markers number
 N = round(2000 / 3 * as.numeric(K)) # ADT/CyTOF cell number ## N could be larger
 G = 100 # RNA gene number
