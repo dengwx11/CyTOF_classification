@@ -5,7 +5,7 @@ args = commandArgs(trailingOnly=TRUE)
 
 K = as.character(args[1])
 
-source("Opt/Simulation.R")
+source("Simulation/Simulation.R")
 source('Opt/run_para.R')
 library(mltools)
 library(data.table)
