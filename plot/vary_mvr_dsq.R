@@ -4,8 +4,9 @@ options(stringsAsFactors=F)
 args = commandArgs(trailingOnly=TRUE)
 
 mean_var_ratio = as.character(args[1])
+seed = as.character(args[2])
 
-source("Opt/Simulation.R")
+source("Simulation/Simulation.R")
 source('Opt/run_para.R')
 library(mltools)
 library(data.table)
@@ -14,7 +15,7 @@ library(aricode)
 library(kBET)
 
 ## senario2
-set.seed(2020)
+set.seed(as.numeric(seed))
 K = 8 # cell types number ## K could be larger
 D = 10 # surface markers number
 N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -79,4 +80,4 @@ nmi <- mean(mapply(NMI, truth_onehot, as.data.frame(pred_onehot)))
 
 results <- c(accu, cos_sim, ari, nmi)
 names(results) <- c('accu', 'cos_sim', 'ari', 'nmi')
-write.table(results, paste0('/home/bz234/project/Results/CyTOF/simulation/vary_mvr/s2', '_mvr_', mean_var_ratio, '.txt'))
+write.table(results, paste0('/home/bz234/project/Results/CyTOF/simulation/vary_mvr/s2', '_mvr_', mean_var_ratio, '_seed_', seed, '.txt'))

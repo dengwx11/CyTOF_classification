@@ -17,8 +17,10 @@ library(lsa)
 library(aricode)
 library(kBET)
 
+set.seed(2020)
+
 if(senario == '1') {
-    set.seed(2020)
+    
     K = 5 # cell types number ## K could be larger
     D = 10 # surface markers number
     N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -41,31 +43,7 @@ if(senario == '1') {
     prob_k = c(1,2,2,3,3)
 }
 if(senario == '2') {
-    set.seed(2020)
-    K = 8 # cell types number ## K could be larger
-    D = 10 # surface markers number
-    N = 2000 # ADT/CyTOF cell number ## N could be larger
-    G = 100 # RNA gene number
-    pi_ber1 = 0.55
-    pi_ber2 = 0.9
-
-    ## simulation parameters:
-    iteration = 100
-    big_w_mean = 2
-    big_tau_w = 8
-    small_w_mean = 1
-    small_tau_w = 8
-    p.0 = 0.15
-    q.0 = 0.3
-    p.neg1 = 0.1
-    q.neg1 = 0.15
-    mean_var_ratio = 5
-    corr = 0.2
-    #prob_k = c(1,2,2,3,3)
-    prob_k = c(3,1,2,3,3,1,2,1)
-}
-if(senario == '2') {
-    set.seed(2020)
+ 
     K = 8 # cell types number ## K could be larger
     D = 10 # surface markers number
     N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -89,7 +67,7 @@ if(senario == '2') {
     prob_k = c(3,1,2,3,3,1,2,1)
 }
 if(senario == '3') {
-    set.seed(2020)
+  
     K = 8 # cell types number ## K could be larger
     D = 10 # surface markers number
     N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -113,7 +91,7 @@ if(senario == '3') {
     prob_k = c(3,1,2,3,3,1,2,1)
 }
 if(senario == '4') {
-    set.seed(2020)
+   
     K = 8 # cell types number ## K could be larger
     D = 10 # surface markers number
     N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -137,7 +115,7 @@ if(senario == '4') {
     prob_k = c(3,1,2,3,3,1,2,1)
 }
 if(senario == '5') {
-    set.seed(2020)
+
     K = 8 # cell types number ## K could be larger
     D = 10 # surface markers number
     N = 2000 # ADT/CyTOF cell number ## N could be larger
@@ -161,7 +139,7 @@ if(senario == '5') {
     prob_k = c(3,1,2,3,3,1,2,1)
 }
 if(senario == '6') {
-    set.seed(2020)
+ 
     K = 8 # cell types number ## K could be larger
     D = 10 # surface markers number
     N = 2000 # ADT/CyTOF cell number ## N could be larger
