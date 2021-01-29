@@ -122,10 +122,11 @@ for(i in 1:length(pars_lst)){
   coord_flip() +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"),
-        plot.title = element_text(size=14))
+        plot.title = element_text(size=14))+ 
+  guides(fill = guide_legend(reverse=TRUE))
 }
 pll <- plot_grid(plotlist = plotlist, ncol=3)
-ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/benchmark_v2.png', pll, width = 15, height = 6)
+ggsave('/Users/mac/Desktop/Yale/Hongyu/CyTOF/Plots/benchmark_v3.png', pll, width = 15, height = 6)
 
 
 
