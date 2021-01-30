@@ -62,7 +62,7 @@ rst <- run(X,rst.para$para$lambda1,rst.para$para$lambda2,rst.para$para$mu,rst.pa
             AS,A0,D,K,N, epsilon = 10^(-3),fixed_loop=2000)
 truth <- label.output$label
 celltype_pred <- apply(rst$H, 2, predict)
-truth_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(truth)))))
+truth_onehot <- as.data.frame(t(one_hot(as.data.table(factor(truth, levels = as.character(1:K))))))
 pred_onehot <- as.data.frame(t(one_hot(as.data.table(as.factor(celltype_pred)))))
 cnt_max <- 0
 for(i in 1:length(truth)){
