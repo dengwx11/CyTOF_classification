@@ -71,6 +71,29 @@ for(i in 1:length(truth)){
     cnt_max = cnt_max + infer_max(truth[i], rst$H[,i])
 }  
 
+# ## Visualization
+# seur$label <- as.factor(truth)
+# seur <- RunUMAP(seur, dims = 1:5)
+# seur$pred <- celltype_pred
+# p1 <- DimPlot(seur, reduction = "umap", group.by = 'label')+
+#   theme(axis.text=element_text(size=12),
+#         axis.title=element_text(size=14,face="bold"),
+#         plot.title = element_text(size=14))+ 
+#   guides(fill = guide_legend(reverse=TRUE))
+# p2 <- DimPlot(seur, reduction = "umap", group.by = "pred")+
+#   theme(axis.text=element_text(size=12),
+#         axis.title=element_text(size=14,face="bold"),
+#         plot.title = element_text(size=14))+ 
+#   guides(fill = guide_legend(reverse=TRUE))
+# library(cowplot)
+# library(ggplot2)
+# pll <- plot_grid(plotlist = list(p1, p2), ncol=2)
+# title <- ggdraw() + draw_label("K = 29", fontface='bold')
+# pll_grid <- plot_grid(title, pll, ncol=1, rel_heights=c(0.1, 1))
+# ggsave('/Users/mac/Desktop/K_29.png', pll_grid, width = 15, height = 6)
+
+
+
 ## Accuracy
 accu <- cnt_max / N
 ## Cosine similarity
